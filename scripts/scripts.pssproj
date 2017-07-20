@@ -25,7 +25,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="scriptsMSOL\New_MSOLTestUsers.ps1" />
+    <Compile Include="scriptsO365SecurityCenter\New-SCDLPPolicy.ps1" />
+    <Compile Include="scriptsO365SecurityCenter\New-SCDLPRule.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="scriptsMSOL\" />
+    <Folder Include="scriptsO365SecurityCenter\" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\PowerShell Tools for Visual Studio\PowerShellTools.targets" Condition="Exists('$(MSBuildExtensionsPath)\PowerShell Tools for Visual Studio\PowerShellTools.targets')" />
 </Project>
