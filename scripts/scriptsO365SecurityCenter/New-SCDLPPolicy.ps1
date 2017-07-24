@@ -3,6 +3,7 @@ $Parameters = @{
 	'Name'                         = '<String>'
 	'Comment'                      = '<String>'
 	'Force'                        = '<SwitchParameter>'
+	'ExchangeLocation'             = 'All' 
 	#'Mode'                         = 'Enable' #default
 	#'Mode'                         = 'TestWithNotifications'
 	'Mode'                         = 'TestWithoutNotifications'
