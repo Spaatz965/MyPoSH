@@ -26,11 +26,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="scratch\AzureBaseConfigTestLab.ps1" />
+    <Compile Include="scratch\Inventory-SPFarm.ps1" />
+    <Compile Include="scratch\Script1.ps1" />
+    <Compile Include="scratch\Script2.ps1" />
+    <Compile Include="scratch\Script3.ps1" />
     <Compile Include="scriptsMSOL\New_MSOLTestUsers.ps1" />
     <Compile Include="scriptsO365SecurityCenter\New-SCDLPPolicy.ps1" />
     <Compile Include="scriptsO365SecurityCenter\New-SCDLPRule.ps1" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="scratch\" />
     <Folder Include="scriptsMSOL\" />
     <Folder Include="scriptsO365SecurityCenter\" />
   </ItemGroup>
