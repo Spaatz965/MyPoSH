@@ -1,5 +1,5 @@
 ﻿#Requires -module ActiveDirectory
-#function get-userinfo {
+function Get-ADUserInfo {
 
     [CmdletBinding()]
     [Alias()]
@@ -180,11 +180,99 @@
     END{
         set-location $Location
     }
-#} # Function get-userinfo
+} # Function Get-ADUserInfo
 
-<#
-# Original method for gaining domain info
-$Domains = ((Get-ADForest).domains | Get-ADDomain | Select-Object NetBIOSName,
-     DistinguishedName,DNSRoot,@{name="drive";Expression={$_.netbiosname + ':'}})
-#>
+#region testing the function
+$Order = @(
+"CanonicalName",
+"FQDNAccountName",
+"SamAccountName",
+"UserPrincipalName",
+"NameDisplay",
+"NameGiven",
+"NameLast",
+"NameOther",
+"Initials",
+"Title",
+"Company",
+"Department",
+"Division",
+"Organization",
+"Organizations",
+"Description",
+"Office",
+"StreetAddress",
+"POBox",
+"City",
+"State",
+"PostalCode",
+"Country",
+"CountryISO2",
+"CountryISONumeric",
+"CommonName",
+"DistinguishedName",
+"DirectReports",
+"Manager",
+"EmployeeNumber",
+"EmployeeType",
+"IMAddress",
+"IMFederationEnabled",
+"IMInternetAccessEnabled",
+"IMPrimaryUserAddress",
+"MailAddresses",
+"MailAuthToSendMailto",
+"MailDLOwnership",
+"MailHideFromAddressBook",
+"MailHomeServerName",
+"MailmDBUseDefaults",
+"MailNickname",
+"MailPrimary",
+"MailShadowMailNickname",
+"MailUserAccountControl",
+"MailUserCulture",
+"legacyExchangeDN",
+"WhenMailboxCreated",
+"PhoneFax",
+"PhoneHome",
+"PhoneHomeOther",
+"PhoneIP",
+"PhoneIPcisco",
+"PhoneMobile",
+"PhoneOffice",
+"PhoneTelephoneNumber",
+"PhoneTelephoneOther",
+"GroupMemberships",
+"HomePage",
+"ManagedObjects",
+"RoamingProfilePath",
+"HomeDirectory",
+"HomedirRequired",
+"HomeDrive",
+"PasswordExpired",
+"PasswordLastSet",
+"PasswordNeverExpires",
+"PasswordNotRequired",
+"LockedOut",
+"LockoutTime",
+"AccountLockoutTime",
+"BadLogonCount",
+"CannotChangePassword",
+"LastBadPasswordAttempt",
+"LastLogoff",
+"LastLogonDate",
+"LogonCount",
+"AccountExpirationDate",
+"WhenChanged",
+"WhenCreated",
+"Enabled",
+"IsDeleted",
+"ObjectGUID",
+"objectSid",
+"ProtectedFromAccidentalDeletion",
+"SID",
+"SIDHistory",
+"UserAccountControl")
 
+Get-ADUserInfo -Names TestUser | select-object -Property $Order | export-csv -NoTypeInformation -Path "$pwd\ADUserInfo$(get-date -format filedatetime).csv"
+
+#endregion
