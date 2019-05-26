@@ -1,4 +1,4 @@
-$O365PropertiesUser = @()
+$O365PropertiesUser = @(
     'UserPrincipalName',
     'SignInName',
     'DisplayName',
@@ -17,9 +17,9 @@ $O365PropertiesUser = @()
     'PhoneNumber',
     'MobilePhone',
     'Fax',
-    @{Name='AlternateMobilePhones';Expression={$_.AlternateMobilePhones -join ";"}},
-    @{Name=’AlternateEmailAddresses';Expression={$_.AlternateEmailAddresses -join ";"}},
-    @{Name='ProxyAddresses';Expression={$_.ProxyAddresses -join ";"}},
+    @{Name = 'AlternateMobilePhones'; Expression = { $_.AlternateMobilePhones -join ";" } },
+    @{Name = 'AlternateEmailAddresses'; Expression = { $_.AlternateEmailAddresses -join ";" } },
+    @{Name = 'ProxyAddresses'; Expression = { $_.ProxyAddresses -join ";" } },
     'IsBlackberryUser',
     'LastDirSyncTime',
     'LastPasswordChangeTimestamp',
@@ -31,7 +31,7 @@ $O365PropertiesUser = @()
     'PreferredLanguage',
     'ReleaseTrack',
     'SoftDeletionTimestamp',
-    @{Name='StrongAuthenticationRequirements';Expression={$_.StrongAuthenticationRequirements.state}},
+    @{Name = 'StrongAuthenticationRequirements'; Expression = { $_.StrongAuthenticationRequirements.state } },
     'StrongPasswordRequired',
     'StsRefreshTokensValidFrom',
     'UserLandingPageIdentifierForO365Shell',
@@ -40,5 +40,5 @@ $O365PropertiesUser = @()
     'ValidationStatus',
     'WhenCreated',
     'UsageLocation',
-    @{Name='Licenses';Expression={$_.Licenses.accountskuid -join ";"}}
+    @{Name = 'Licenses'; Expression = { $_.Licenses.accountskuid -join ";" } }
 )

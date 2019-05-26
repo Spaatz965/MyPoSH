@@ -98,7 +98,7 @@ $ADUserProperties = @(
     'userSMIMECertificate', # Not readable - useful to know it exists
 
     # Instant Messaging Properties
-    'msExchIMAddress', # IM / SIP Address
+    'msExchIMAddress' # IM / SIP Address
 
 
 )
