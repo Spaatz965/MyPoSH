@@ -1,0 +1,26 @@
+$PasswordProfile = New-Object -TypeName Microsoft.Open.AzureAD.Model.PasswordProfile
+$PasswordProfile.Password = "<password>"
+foreach ( $user in $users ) {
+    $properties = @{
+        'AccountEnabled'           = $true
+        'DisplayName'              = $user.DisplayName
+        'UserPrincipalName'        = $user.UserPrincipalName
+        'GivenName'                = $user.GivenName
+        'Surname'                  = $user.Surname
+        'StreetAddress'            = $user.StreetAddress
+        'City'                     = $user.City
+        'State'                    = $user.State
+        'PostalCode'               = $user.PostalCode
+        'Country'                  = $user.Country
+        'UsageLocation'            = $user.UsageLocation
+        'Department'               = $user.Department
+        'JobTitle'                 = $user.JobTitle
+        'TelephoneNumber'          = $user.TelephoneNumber
+        'FacsimileTelephoneNumber' = $user.FacsimileTelephoneNumber
+        'Mobile'                   = $user.Mobile
+        'mailNickname'             = $user.mailNickname
+        'PasswordPolicies'         = "DisablePasswordExpiration, DisableStrongPassword"
+        'PasswordProfile'          = $PasswordProfile
+    }
+    New-AzureADUser @properties
+}
