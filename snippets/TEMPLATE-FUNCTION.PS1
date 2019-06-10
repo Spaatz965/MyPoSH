@@ -3,7 +3,7 @@
 #requires -Version 2.0
 
 function Verb-Noun {
-<#
+    <#
 .SYNOPSIS
     A brief description of the function or script. This keyword can be used
     only once in each topic.
@@ -131,7 +131,27 @@ function Verb-Noun {
 #>
 
     [CmdletBinding()]
-    param ()
+    param (
+        [Parameter(Mandatory = $true,
+            ValueFromPipeline = $true,
+            HelpMessage = "this is a help message")]
+        [Alias("CN", "MachineName")]
+        #[AllowNull()]
+        #[ValidateNotNull()]
+        #[ValidateNotNullOrEmpty()]
+        #[ValidateDrive("C", "D", "Variable", "Function")]
+        #[AllowEmptyString()]
+        #[AllowEmptyCollection()]
+        #[ValidateCount(1,5)] #minimum and maximum number of parameter values that a parameter accepts. 
+        #[ValidateLength(1,10)] #minimum and maximum number of characters in a parameter or variable value.
+        #[ValidatePattern("[0-9][0-9][0-9][0-9]")] #regular expression that is compared to the parameter or variable value
+        #[ValidateScript({$_ -ge (Get-Date)})] #script that is used to validate a parameter or variable value. PowerShell pipes the value to the script, and generates an error if the script returns $false or if the script throws an exception.
+        #[ValidateSet("Low", "Average", "High")] #set of valid values for a parameter or variable
+        [String[]] $ComputerName,
+        [Parameter(Mandatory = $false)]
+        [Switch]
+        $Name
+    )
 
     BEGIN {
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) BEGIN   ] "
