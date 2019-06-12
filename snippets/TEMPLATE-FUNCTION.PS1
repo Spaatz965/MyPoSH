@@ -157,9 +157,21 @@ function Verb-Noun {
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) BEGIN   ] "
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) BEGIN   ] Starting: $($MyInvocation.MyCommand)"
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) BEGIN   ] Execution Metadata:"
-        # TODO: Add Get-GLWEnvironmentMetaData helper function
-        # $EnvironmentData = Get-GLWEnvironmentMetaData
+        # TODO: Add Get-XMNEnvironmentMetaData helper function
+        # $EnvironmentData = Get-XMNEnvironmentMetaData
         # Write-Verbose $EnvironmentData
+
+        Try {
+
+        }
+        Catch [errortype] {
+            # Finding error types https://learn-powershell.net/2015/04/09/quick-hits-finding-exception-types-with-powershell/
+        }
+        Catch {
+
+        }
+        Finally { }
+
 
     } # BEGIN
 
