@@ -31,6 +31,8 @@ Solution 11 June 2019
 $target = "Spooler", "Spork Client", "WinRM", "Spork Agent Service", "BITS", "WSearch"
 $list = "winrm", "foo", "spooler", "spor*", "bar"
 
+# Original Response
+
 foreach ( $item in $list ) {
 
     $compare = $target | Where-Object { $_ -like $item }
@@ -38,3 +40,16 @@ foreach ( $item in $list ) {
     if ( $null -eq $compare ) { Write-Output "$item" }
 
 }
+
+# Solution from PS Users Group
+
+foreach ( $item in $list ) {
+
+    if ( -not ( $target -like $item )) { write-output $item }
+
+}
+
+
+# Favorite answer from the challenge comments
+
+$list | Where-Object { -not ( $target -like $_ )}
