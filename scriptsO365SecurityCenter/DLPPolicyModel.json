@@ -1,0 +1,75 @@
+{
+    "Policy1": {
+        "Name": "This is the Policy Name",
+        "Comment": "This is a comment/description",
+        "ExchangeLocation": "All",
+        "Mode": "TestWithoutNotifications",
+        /* Enable | TestWithNotifications | TestWithoutNotifications | Disable | PendingDeletion */
+        "OneDriveLocation": "All",
+        "OneDriveLocationException": null,
+        "SharePointLocation": "All",
+        "SharePointLocationException": null,
+        "Rules": [
+            {
+                "Name": "Rule Name",
+                "AccessScope": "InOrganization",
+                /* InOrganization | NotInOrganization */
+                "BlockAccess": true,
+                "BlockAccessScope": null,
+                /* All | PerUser */
+                "Comment": "",
+                "ContentContainsSensitiveInformation": [
+                    {
+                        "Name": "",
+                        "minCount": 1,
+                        "maxCount": -1,
+                        "minConfidence": -1,
+                        "maxConfidence": 100
+                        /* -1 equals 'ANY' */
+                    }
+                ],
+                "ContentPropertyContainsWords": {
+                    "PropertyName1": [
+                        "value1",
+                        "Value2",
+                        "Value3"
+                    ],
+                    "PropertyName2": [
+                        "value1",
+                        "Value2",
+                        "Value3"
+                    ]
+                },
+                "Disabled": false,
+                "GenerateAlert": [
+                    "SiteAdmin",
+                    "User@example.com"
+                ],
+                "GenerateIncidentReport": [
+                    "SiteAdmin",
+                    "User@example.com"
+                ],
+                "IncidentReportContent": [
+                    "All"
+                ],
+                /* All | Default | Detections | DocumentAuthor | DocumentLastModifier | MatchedItem | RulesMatched | Service | Severity | Service | Title */
+                "NotifyAllowOverride": [
+                    "WithJustification"
+                ],
+                /* FalsePositive | WithoutJustification | WithJustification*/
+                "NotifyEmailCustomText": null,
+                "NotifyPolicyTipCustomText": null,
+                "NotifyUser": [
+                    "LastModifier",
+                    "Owner",
+                    "SiteAdmin",
+                    "User@example.com"
+                ],
+                "ReportSeverityLevel": "Low",
+                /* Low | Medium | High | None */
+                "RuleErrorAction": null
+                /* 	Ignore | RetryThenBlock | null */
+            }
+        ]
+    }
+}

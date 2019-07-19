@@ -1,0 +1,499 @@
+{
+    "Policies": [
+        {
+            "Name": "Financial Data",
+            "Comment": "Checks for financial content",
+            "ExchangeLocation": "All",
+            "Mode": "TestWithoutNotifications",
+            /* Enable | TestWithNotifications | TestWithoutNotifications | Disable | PendingDeletion */
+            "OneDriveLocation": "All",
+            "OneDriveLocationException": null,
+            "SharePointLocation": "All",
+            "SharePointLocationException": null,
+            "Rules": [
+                {
+                    "Name": "Low Risk Financial Data",
+                    "AccessScope": "InOrganization",
+                    /* InOrganization | NotInOrganization */
+                    "BlockAccess": false,
+                    "BlockAccessScope": null,
+                    /* All | PerUser */
+                    "Comment": "Lower risk, likely individual/personal use",
+                    "ContentContainsSensitiveInformation": [
+                        {
+                            "Name": "cb353f78-2b72-4c3c-8827-92ebe4f69fdf",
+                            "minCount": "1",
+                            "maxCount": "5",
+                            "minConfidence": "75",
+                            "maxConfidence": "100"
+                            /* -1 equals 'ANY' */
+                        },
+                        {
+                            "Name": "U.S. Bank Account Number",
+                            "minCount": "1",
+                            "maxCount": "5",
+                            "minConfidence": "75",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "Credit Card Number",
+                            "minCount": "1",
+                            "maxCount": "5",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "EU Debit Card Number",
+                            "minCount": "1",
+                            "maxCount": "5",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "International Banking Account Number (IBAN)",
+                            "minCount": "1",
+                            "maxCount": "5",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        }
+                    ],
+                    "ContentPropertyContainsWords": null,
+                    "Disabled": false,
+                    "GenerateAlert": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "GenerateIncidentReport": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "IncidentReportContent": [
+                        "All"
+                    ],
+                    /* All | Default | Detections | DocumentAuthor | DocumentLastModifier | MatchedItem | RulesMatched | Service | Severity | Service | Title */
+                    "NotifyAllowOverride": [
+                        "FalsePositive",
+                        "WithoutJustification"
+                    ],
+                    /* FalsePositive | WithoutJustification | WithJustification*/
+                    "NotifyEmailCustomText": null,
+                    "NotifyPolicyTipCustomText": null,
+                    "NotifyUser": [
+                        "LastModifier",
+                        "Owner",
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "ReportSeverityLevel": "Low",
+                    /* Low | Medium | High | None */
+                    "RuleErrorAction": null
+                    /* 	Ignore | RetryThenBlock | null */
+                },
+                {
+                    "Name": "Medium Risk Financial Data",
+                    "AccessScope": "InOrganization",
+                    /* InOrganization | NotInOrganization */
+                    "BlockAccess": true,
+                    "BlockAccessScope": null,
+                    /* All | PerUser */
+                    "Comment": "Moderate risk financial data",
+                    "ContentContainsSensitiveInformation": [
+                        {
+                            "Name": "cb353f78-2b72-4c3c-8827-92ebe4f69fdf",
+                            "minCount": "6",
+                            "maxCount": "10",
+                            "minConfidence": "75",
+                            "maxConfidence": "100"
+                            /* -1 equals 'ANY' */
+                        },
+                        {
+                            "Name": "U.S. Bank Account Number",
+                            "minCount": "6",
+                            "maxCount": "10",
+                            "minConfidence": "75",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "Credit Card Number",
+                            "minCount": "6",
+                            "maxCount": "10",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "EU Debit Card Number",
+                            "minCount": "6",
+                            "maxCount": "10",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "International Banking Account Number (IBAN)",
+                            "minCount": "6",
+                            "maxCount": "10",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        }
+                    ],
+                    "ContentPropertyContainsWords": null,
+                    "Disabled": false,
+                    "GenerateAlert": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "GenerateIncidentReport": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "IncidentReportContent": [
+                        "All"
+                    ],
+                    /* All | Default | Detections | DocumentAuthor | DocumentLastModifier | MatchedItem | RulesMatched | Service | Severity | Service | Title */
+                    "NotifyAllowOverride": [
+                        "FalsePositive",
+                        "WithoutJustification"
+                    ],
+                    /* FalsePositive | WithoutJustification | WithJustification*/
+                    "NotifyEmailCustomText": null,
+                    "NotifyPolicyTipCustomText": null,
+                    "NotifyUser": [
+                        "LastModifier",
+                        "Owner",
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "ReportSeverityLevel": "Medium",
+                    /* Low | Medium | High | None */
+                    "RuleErrorAction": null
+                    /* 	Ignore | RetryThenBlock | null */
+                },
+                {
+                    "Name": "High Risk Financial Data",
+                    "AccessScope": "InOrganization",
+                    /* InOrganization | NotInOrganization */
+                    "BlockAccess": true,
+                    "BlockAccessScope": null,
+                    /* All | PerUser */
+                    "Comment": "High Risk Financial Data",
+                    "ContentContainsSensitiveInformation": [
+                        {
+                            "Name": "cb353f78-2b72-4c3c-8827-92ebe4f69fdf",
+                            "minCount": "11",
+                            "maxCount": "-1",
+                            "minConfidence": "75",
+                            "maxConfidence": "100"
+                            /* -1 equals 'ANY' */
+                        },
+                        {
+                            "Name": "U.S. Bank Account Number",
+                            "minCount": "11",
+                            "maxCount": "-1",
+                            "minConfidence": "75",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "Credit Card Number",
+                            "minCount": "11",
+                            "maxCount": "-1",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "EU Debit Card Number",
+                            "minCount": "11",
+                            "maxCount": "-1",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "International Banking Account Number (IBAN)",
+                            "minCount": "11",
+                            "maxCount": "-1",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        }
+                    ],
+                    "ContentPropertyContainsWords": null,
+                    "Disabled": false,
+                    "GenerateAlert": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "GenerateIncidentReport": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "IncidentReportContent": [
+                        "All"
+                    ],
+                    /* All | Default | Detections | DocumentAuthor | DocumentLastModifier | MatchedItem | RulesMatched | Service | Severity | Service | Title */
+                    "NotifyAllowOverride": [
+                        "WithJustification"
+                    ],
+                    /* FalsePositive | WithoutJustification | WithJustification*/
+                    "NotifyEmailCustomText": null,
+                    "NotifyPolicyTipCustomText": null,
+                    "NotifyUser": [
+                        "LastModifier",
+                        "Owner",
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "ReportSeverityLevel": "High",
+                    /* Low | Medium | High | None */
+                    "RuleErrorAction": null
+                    /* 	Ignore | RetryThenBlock | null */
+                }
+            ]
+        },
+        {
+            "Name": "Tech Data",
+            "Comment": "Checks for Information Technology content",
+            "ExchangeLocation": "All",
+            "ExchangeOnPremisesLocation": null,
+            "Mode": "TestWithoutNotifications",
+            /* Enable | TestWithNotifications | TestWithoutNotifications | Disable | PendingDeletion */
+            "OneDriveLocation": "All",
+            "OneDriveLocationException": null,
+            "SharePointLocation": "All",
+            "SharePointLocationException": null,
+            "SharePointOnPremisesLocationException": null,
+            "SharePointServerLocation": null,
+            "Rules": [
+                {
+                    "Name": "Low Risk Tech Data",
+                    "AccessScope": "InOrganization",
+                    /* InOrganization | NotInOrganization */
+                    "BlockAccess": false,
+                    "BlockAccessScope": null,
+                    /* All | PerUser */
+                    "Comment": "Lower risk, likely individual/personal use",
+                    "ContentContainsSensitiveInformation": [
+                        {
+                            "Name": "IP Address",
+                            "minCount": "1",
+                            "maxCount": "5",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                            /* -1 equals 'ANY' */
+                        },
+                        {
+                            "Name": "Azure DocumentDB Auth Key",
+                            "minCount": "1",
+                            "maxCount": "5",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "Azure IAAS Database Connection String and Azure SQL Connection String",
+                            "minCount": "1",
+                            "maxCount": "5",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "Azure IoT Connection String",
+                            "minCount": "1",
+                            "maxCount": "5",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "Azure Publish Setting Password",
+                            "minCount": "1",
+                            "maxCount": "5",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        }
+                    ],
+                    "ContentPropertyContainsWords": null,
+                    "Disabled": false,
+                    "GenerateAlert": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "GenerateIncidentReport": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "IncidentReportContent": [
+                        "All"
+                    ],
+                    /* All | Default | Detections | DocumentAuthor | DocumentLastModifier | MatchedItem | RulesMatched | Service | Severity | Service | Title */
+                    "NotifyAllowOverride": [
+                        "FalsePositive",
+                        "WithoutJustification"
+                    ],
+                    /* FalsePositive | WithoutJustification | WithJustification*/
+                    "NotifyEmailCustomText": null,
+                    "NotifyPolicyTipCustomText": null,
+                    "NotifyUser": [
+                        "LastModifier",
+                        "Owner",
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "ReportSeverityLevel": "Low",
+                    /* Low | Medium | High | None */
+                    "RuleErrorAction": null
+                    /* 	Ignore | RetryThenBlock | null */
+                },
+                {
+                    "Name": "Medium Risk Tech Data",
+                    "AccessScope": "InOrganization",
+                    /* InOrganization | NotInOrganization */
+                    "BlockAccess": true,
+                    "BlockAccessScope": null,
+                    /* All | PerUser */
+                    "Comment": "Moderate risk Tech data",
+                    "ContentContainsSensitiveInformation": [
+                        {
+                            "Name": "IP Address",
+                            "minCount": "6",
+                            "maxCount": "10",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                            /* -1 equals 'ANY' */
+                        },
+                        {
+                            "Name": "Azure DocumentDB Auth Key",
+                            "minCount": "6",
+                            "maxCount": "10",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "Azure IAAS Database Connection String and Azure SQL Connection String",
+                            "minCount": "6",
+                            "maxCount": "10",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "Azure IoT Connection String",
+                            "minCount": "6",
+                            "maxCount": "10",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "Azure Publish Setting Password",
+                            "minCount": "6",
+                            "maxCount": "10",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        }
+                    ],
+                    "ContentPropertyContainsWords": null,
+                    "Disabled": false,
+                    "GenerateAlert": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "GenerateIncidentReport": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "IncidentReportContent": [
+                        "All"
+                    ],
+                    /* All | Default | Detections | DocumentAuthor | DocumentLastModifier | MatchedItem | RulesMatched | Service | Severity | Service | Title */
+                    "NotifyAllowOverride": [
+                        "FalsePositive",
+                        "WithoutJustification"
+                    ],
+                    /* FalsePositive | WithoutJustification | WithJustification*/
+                    "NotifyEmailCustomText": null,
+                    "NotifyPolicyTipCustomText": null,
+                    "NotifyUser": [
+                        "LastModifier",
+                        "Owner",
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "ReportSeverityLevel": "Medium",
+                    /* Low | Medium | High | None */
+                    "RuleErrorAction": null
+                    /* 	Ignore | RetryThenBlock | null */
+                },
+                {
+                    "Name": "High Risk Tech Data",
+                    "AccessScope": "InOrganization",
+                    /* InOrganization | NotInOrganization */
+                    "BlockAccess": true,
+                    "BlockAccessScope": null,
+                    /* All | PerUser */
+                    "Comment": "High Risk Tech Data",
+                    "ContentContainsSensitiveInformation": [
+                        {
+                            "Name": "Azure DocumentDB Auth Key",
+                            "minCount": "11",
+                            "maxCount": "-1",
+                            "minConfidence": "75",
+                            "maxConfidence": "100"
+                            /* -1 equals 'ANY' */
+                        },
+                        {
+                            "Name": "Azure IAAS Database Connection String and Azure SQL Connection String",
+                            "minCount": "11",
+                            "maxCount": "-1",
+                            "minConfidence": "75",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "Azure IoT Connection String",
+                            "minCount": "11",
+                            "maxCount": "-1",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "Azure Publish Setting Password",
+                            "minCount": "11",
+                            "maxCount": "-1",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        },
+                        {
+                            "Name": "IP Address",
+                            "minCount": "11",
+                            "maxCount": "-1",
+                            "minConfidence": "85",
+                            "maxConfidence": "100"
+                        }
+                    ],
+                    "ContentPropertyContainsWords": null,
+                    "Disabled": false,
+                    "GenerateAlert": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "GenerateIncidentReport": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "IncidentReportContent": [
+                        "All"
+                    ],
+                    /* All | Default | Detections | DocumentAuthor | DocumentLastModifier | MatchedItem | RulesMatched | Service | Severity | Service | Title */
+                    "NotifyAllowOverride": [
+                        "WithJustification"
+                    ],
+                    /* FalsePositive | WithoutJustification | WithJustification*/
+                    "NotifyEmailCustomText": null,
+                    "NotifyPolicyTipCustomText": null,
+                    "NotifyUser": [
+                        "LastModifier",
+                        "Owner",
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "ReportSeverityLevel": "High",
+                    /* Low | Medium | High | None */
+                    "RuleErrorAction": null
+                    /* 	Ignore | RetryThenBlock | null */
+                }
+            ]
+        }
+    ]
+}
