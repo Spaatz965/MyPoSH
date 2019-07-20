@@ -1,0 +1,23 @@
+{
+    "git.autofetch": true,
+    "files.defaultLanguage": "powershell",
+    "editor.formatOnPaste": false,
+    "editor.formatOnSave": false,
+    "editor.formatOnType": false,
+    "editor.mouseWheelZoom": true,
+    "team.showWelcomeMessage": false,
+    "editor.rulers": [
+        76,
+        80,
+        116,
+        120
+    ],
+    "explorer.confirmDragAndDrop": false,
+    "files.associations": {
+        "*.ps1": "powershell"
+    },
+    "workbench.sideBar.location": "left",
+    "workbench.activityBar.visible": true,
+    "scm.alwaysShowActions": true,
+    "scm.alwaysShowProviders": true
+}
