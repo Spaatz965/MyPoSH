@@ -5,8 +5,7 @@ function Get-ADUserInfo {
     [Alias()]
 
     param(
-        [parameter(Mandatory=$True,
-                   ValueFromPipeline=$True,
+        [parameter(ValueFromPipeline=$True,
                    ValueFromPipelineByPropertyName=$True,
                    HelpMessage="samAccountName, Mail, or surName")]
         [alias('mail','email','user','samaccountname','sn','name','lname')]
@@ -44,10 +43,10 @@ function Get-ADUserInfo {
                 $filter = {(samaccountname -eq $NAME) -or (proxyaddresses -eq $NAMEMail) -or (sn -eq $NAME)}
                 $users = get-aduser -filter $filter -Properties *
 
-                if ($users -ne $null) {
+                if ( $null -ne $users ) {
         
                     foreach ( $aduser in $users ) {
-                        $properties = @{
+                        $properties = [ordered]@{
                             # Name Data
                             NameDisplay                     = $aduser.DisplayName
                             NameGiven                       = $aduser.GivenName
@@ -92,7 +91,7 @@ function Get-ADUserInfo {
                             IMPrimaryUserAddress            = $aduser.'msRTCSIP-PrimaryUserAddress'
 
                             # E-Mail Data
-                            MailAddresses                   = ( $aduser.proxyAddresses | where {$_ -like "smtp:*"} ) -join ';'
+                            MailAddresses                   = ( $aduser.proxyAddresses | Where-Object {$_ -like "smtp:*"} ) -join ';'
                             MailAuthToSendMailto            = $aduser.authOrigBL -join "`n"
                             MailDLOwnership                 = $aduser.msExchCoManagedObjectsBL -join "`n"
                             MailHideFromAddressBook         = $aduser.msExchHideFromAddressLists
@@ -183,96 +182,7 @@ function Get-ADUserInfo {
 } # Function Get-ADUserInfo
 
 #region testing the function
-$Order = @(
-"CanonicalName",
-"FQDNAccountName",
-"SamAccountName",
-"UserPrincipalName",
-"NameDisplay",
-"NameGiven",
-"NameLast",
-"NameOther",
-"Initials",
-"Title",
-"Company",
-"Department",
-"Division",
-"Organization",
-"Organizations",
-"Description",
-"Office",
-"StreetAddress",
-"POBox",
-"City",
-"State",
-"PostalCode",
-"Country",
-"CountryISO2",
-"CountryISONumeric",
-"CommonName",
-"DistinguishedName",
-"DirectReports",
-"Manager",
-"EmployeeNumber",
-"EmployeeType",
-"IMAddress",
-"IMFederationEnabled",
-"IMInternetAccessEnabled",
-"IMPrimaryUserAddress",
-"MailAddresses",
-"MailAuthToSendMailto",
-"MailDLOwnership",
-"MailHideFromAddressBook",
-"MailHomeServerName",
-"MailmDBUseDefaults",
-"MailNickname",
-"MailPrimary",
-"MailShadowMailNickname",
-"MailUserAccountControl",
-"MailUserCulture",
-"legacyExchangeDN",
-"WhenMailboxCreated",
-"PhoneFax",
-"PhoneHome",
-"PhoneHomeOther",
-"PhoneIP",
-"PhoneIPcisco",
-"PhoneMobile",
-"PhoneOffice",
-"PhoneTelephoneNumber",
-"PhoneTelephoneOther",
-"GroupMemberships",
-"HomePage",
-"ManagedObjects",
-"RoamingProfilePath",
-"HomeDirectory",
-"HomedirRequired",
-"HomeDrive",
-"PasswordExpired",
-"PasswordLastSet",
-"PasswordNeverExpires",
-"PasswordNotRequired",
-"LockedOut",
-"LockoutTime",
-"AccountLockoutTime",
-"BadLogonCount",
-"CannotChangePassword",
-"LastBadPasswordAttempt",
-"LastLogoff",
-"LastLogonDate",
-"LogonCount",
-"AccountExpirationDate",
-"WhenChanged",
-"WhenCreated",
-"Enabled",
-"IsDeleted",
-"ObjectGUID",
-"objectSid",
-"ProtectedFromAccidentalDeletion",
-"SID",
-"SIDHistory",
-"UserAccountControl")
 
-Get-ADUserInfo -Names TestUser | select-object -Property $Order | export-csv -NoTypeInformation -Path "$pwd\ADUserInfo$(get-date -format filedatetime).csv"
+Get-ADUserInfo
 
 #endregion
