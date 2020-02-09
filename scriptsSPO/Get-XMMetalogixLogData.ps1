@@ -1,8 +1,4 @@
-#requires -Modules ActiveDirectory
-#requires -PsSnapIn 'Microsoft.SharePoint.PowerShell'
-#requires -Version 2.0
-
-function Verb-Noun {
+function Get-XMMetalogixLogData {
     <#
 .SYNOPSIS
     A brief description of the function or script. This keyword can be used
@@ -132,25 +128,9 @@ function Verb-Noun {
 
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $true,
-            ValueFromPipeline = $true,
-            HelpMessage = "this is a help message")]
-        [Alias("CN", "MachineName")]
-        #[AllowNull()]
-        #[ValidateNotNull()]
-        #[ValidateNotNullOrEmpty()]
-        #[ValidateDrive("C", "D", "Variable", "Function")]
-        #[AllowEmptyString()]
-        #[AllowEmptyCollection()]
-        #[ValidateCount(1,5)] #minimum and maximum number of parameter values that a parameter accepts. 
-        #[ValidateLength(1,10)] #minimum and maximum number of characters in a parameter or variable value.
-        #[ValidatePattern("[0-9][0-9][0-9][0-9]")] #regular expression that is compared to the parameter or variable value
-        #[ValidateScript({$_ -ge (Get-Date)})] #script that is used to validate a parameter or variable value. PowerShell pipes the value to the script, and generates an error if the script returns $false or if the script throws an exception.
-        #[ValidateSet("Low", "Average", "High")] #set of valid values for a parameter or variable
-        [String[]] $ComputerName,
-        [Parameter(Mandatory = $false)]
-        [Switch]
-        $Name
+        [Parameter()]
+        [String] $Path = "$env:userprofile\Essentials\.metadata\appLog"
+        # TODO: Path Validation
     )
 
     BEGIN {
@@ -161,22 +141,49 @@ function Verb-Noun {
         # $EnvironmentData = Get-XMNEnvironmentMetaData
         # Write-Verbose $EnvironmentData
 
-        Try {
-
-        }
-        Catch [errortype] {
-            # Finding error types https://learn-powershell.net/2015/04/09/quick-hits-finding-exception-types-with-powershell/
-        }
-        Catch {
-
-        }
-        Finally { }
+        $files = Get-ChildItem -Path $Path -Filter "*log.xml"
+        # TODO: Validate path has log files.
 
 
     } # BEGIN
 
     PROCESS {
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] "
+
+        foreach ( $file in $files ) {
+            [xml]$xmldata = Get-Content -Path $file.fullname
+            $items = $xmldata.td.l
+
+   
+            foreach ( $item in $items) {
+                $properties = [ordered]@{
+                    'timeStamp'     = [timezone]::CurrentTimeZone.ToLocalTime(([datetime]'1/1/1970').AddMilliseconds($item.d))
+                    'status'        = switch ( $item.t ) {
+                        0 { "successful" }
+                        1 { "information" }
+                        2 { "warning" }
+                        3 { "failed" }
+                        Default { "Status Unknown" }
+                    } 
+                    'elementType'   = $item.elementType
+                    'operation'     = $item.o
+                    'size'          = $item.size
+                    'Info'          = $item.'#cdata-section'
+                    'unixTimestamp' = $item.d
+                    'pN'            = $item.pN #Source Object GUID?
+                    'nN'            = $item.nN #Target Object GUID?
+                    'warningType'   = $item.wt
+                    'errorType'     = $item.et
+                    'FileName'      = $file.name
+                    'RefNo'         = $file.name -replace "activity.", "" -replace ".log.xml", ""
+                }
+                $object = New-Object -TypeName psobject -Property $properties
+                Write-Output $object
+            }
+   
+   
+
+        }
 
     } # PROCESS
 
@@ -191,6 +198,8 @@ function Verb-Noun {
 #region Function Test Use Cases (Uncomment To Test)
 
 # Call Function with parameters
+$LogData = Get-XMMetalogixLogData -Path "C:\Users\spaat\Desktop\EntreIuvoBioScience\OldLogs"
+$LogData | Export-csv -NoTypeInformation -Path "C:\Users\spaat\Desktop\EntreIuvoBioScience\LogData.csv" 
 
 # Call Function via PipeLine
 
