@@ -1,0 +1,1 @@
+[xml]$xmldata = Get-Content -Path $file
