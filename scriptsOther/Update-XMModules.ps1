@@ -1,5 +1,5 @@
 
-function Update-PSModules {
+function Update-XMModules {
     <#
 .SYNOPSIS
     Short script to update all installed modules on a computer.
@@ -13,7 +13,7 @@ function Update-PSModules {
 
 .NOTES
     Additional information about the function or script.
-    File Name      : Update-PSModules.ps1
+    File Name      : Update-XMModules.ps1
     Author         : Mark Christman
     Requires       : PowerShell Version 5.1
     Version        : 1.0
@@ -59,15 +59,15 @@ function Update-PSModules {
     END {
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) END     ] Ending: $($MyInvocation.Mycommand)"
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) END     ] "
-
+        Update-Help
     } # END
 
-} # function Verb-Noun
+} # function Update-XMModules
 
 #region Function Test Use Cases (Uncomment To Test)
 
 # Call Function with parameters
-Update-PSModules
+Update-XMModules
 
 # Call Function via PipeLine
 

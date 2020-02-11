@@ -3,10 +3,10 @@
 
 #>
 
-$schema =[DirectoryServices.ActiveDirectory.ActiveDirectorySchema]::GetCurrentSchema()
+$schema = [DirectoryServices.ActiveDirectory.ActiveDirectorySchema]::GetCurrentSchema()
 $OptionalProperties = $schema.findclass("user").optionalproperties
 foreach ( $OptionalProperty in $OptionalProperties ) {
-    $Properties = @{
+    $Properties = [ordered]@{
         'name'              = $OptionalProperty.name
         'commonName'        = $OptionalProperty.commonname
         'isSingleValued'    = $OptionalProperty.issinglevalued

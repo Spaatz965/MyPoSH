@@ -31,50 +31,42 @@
 $Domain = $null
 $Domains = $null
 $Drive = $null
-$User = $null
 $Users = $null
 $UserProperties = $null
-$UserTest = $null
 
 $Drive = get-location
-$UserProperties = "c","CanonicalName","City","CN","co","codePage","Company","Country","countryCode","Created","Deleted","Department","Description","DisplayName","DistinguishedName","Division","EmailAddress","EmployeeID","EmployeeNumber","employeeType","Enabled","Fax","GivenName","HomeDirectory","HomeDrive","HomePage","HomePhone","Initials","ipPhone","l","LastLogonDate","mail","mailNickname","MobilePhone","Modified","msExchHideFromAddressLists","msExchIMAddress","msExchUserCulture","msRTCSIP-PrimaryUserAddress","msRTCSIP-UserEnabled","Name","o","ObjectClass","ObjectGUID","Office","OfficePhone","Organization","OtherName","otherTelephone","PasswordExpired","PasswordLastSet","physicalDeliveryOfficeName","POBox","PostalCode","proxyaddresses","SamAccountName","SID","sn","st","State","StreetAddress","Surname","telephoneNumber","Title","UserPrincipalName"
+$UserProperties = "c", "CanonicalName", "City", "CN", "co", "codePage", "Company", "Country", "countryCode", "Created", "Deleted", "Department", "Description", "DisplayName", "DistinguishedName", "Division", "EmailAddress", "EmployeeID", "EmployeeNumber", "employeeType", "Enabled", "Fax", "GivenName", "HomeDirectory", "HomeDrive", "HomePage", "HomePhone", "Initials", "ipPhone", "l", "LastLogonDate", "mail", "mailNickname", "MobilePhone", "Modified", "msExchHideFromAddressLists", "msExchIMAddress", "msExchUserCulture", "msRTCSIP-PrimaryUserAddress", "msRTCSIP-UserEnabled", "Name", "o", "ObjectClass", "ObjectGUID", "Office", "OfficePhone", "Organization", "OtherName", "otherTelephone", "PasswordExpired", "PasswordLastSet", "physicalDeliveryOfficeName", "POBox", "PostalCode", "proxyaddresses", "SamAccountName", "SID", "sn", "st", "State", "StreetAddress", "Surname", "telephoneNumber", "Title", "UserPrincipalName"
 $emailaddresses = import-csv $env:USERPROFILE\documents\dns.csv
 
 # Load Active Directory Module
-if(-not(Get-Module -Name "ActiveDirectory"))
-{
-    if(Get-Module -ListAvailable | Where-Object {$_.name -eq "ActiveDirectory"})
-    {
-    Import-Module -Name "ActiveDirectory"
+if (-not(Get-Module -Name "ActiveDirectory")) {
+    if (Get-Module -ListAvailable | Where-Object { $_.name -eq "ActiveDirectory" }) {
+        Import-Module -Name "ActiveDirectory"
     }
-    else
-    {
-    'ActiveDirectory Module not installed on this computer'
+    else {
+        'ActiveDirectory Module not installed on this computer'
     }
 }
-else {}
+else { }
 
-$Domains = ((Get-ADForest).domains | Get-ADDomain | select NetBIOSName,ChildDomains,DistinguishedName,DNSRoot,@{name="drive";e={$_.netbiosname + ':'}})
+$Domains = ((Get-ADForest).domains | Get-ADDomain | Select-Object NetBIOSName, ChildDomains, DistinguishedName, DNSRoot, @{name = "drive"; e = { $_.netbiosname + ':' } })
 
 # Attach Domains
-ForEach ($domain in $domains)
-{
+ForEach ($domain in $domains) {
     New-PSDrive -name $Domain.NetBIOSName -PSProvider ActiveDirectory -root $Domain.DistinguishedName -server $Domain.DNSRoot -ErrorAction SilentlyContinue | Out-Null
 }
 
 # Get User Information
-$users = ForEach ($domain in $domains)
-{
-    CD $Domain.drive
-    ForEach ($mail in $emailaddresses)
-    {
-        $filter = "SMTP:"+$mail.mail
-        Get-ADUser -filter {proxyaddresses -eq $filter} -searchbase $domain.DistinguishedName -properties $UserProperties | select @{name="AccountName";Expression={$domain.netbiosname+"\"+$_.samaccountname}},*
+$users = ForEach ($domain in $domains) {
+    Set-Location $Domain.drive
+    ForEach ($mail in $emailaddresses) {
+        $filter = "SMTP:" + $mail.mail
+        Get-ADUser -filter { proxyaddresses -eq $filter } -searchbase $domain.DistinguishedName -properties $UserProperties | Select-Object @{name = "AccountName"; Expression = { $domain.netbiosname + "\" + $_.samaccountname } }, *
     }
 }
 
 
-CD $Drive
+Set-Location $Drive
 
 # Export Data to CSV
 $users | Export-Csv -NoTypeInformation $env:USERPROFILE\Documents\AddressBookEmail$(get-date -format yyyyMMdd).csv 

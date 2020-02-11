@@ -27,18 +27,15 @@
 ###
 
 # Load Active Directory Module
-if(-not(Get-Module -Name "ActiveDirectory"))
-{
-    if(Get-Module -ListAvailable | Where-Object {$_.name -eq "ActiveDirectory"})
-    {
-    Import-Module -Name "ActiveDirectory"
+if (-not(Get-Module -Name "ActiveDirectory")) {
+    if (Get-Module -ListAvailable | Where-Object { $_.name -eq "ActiveDirectory" }) {
+        Import-Module -Name "ActiveDirectory"
     }
-    else
-    {
-    'ActiveDirectory Module not installed on this computer'
+    else {
+        'ActiveDirectory Module not installed on this computer'
     }
 }
-else {}
+else { }
 
 # Variable Declaration
 $users = @()
@@ -47,35 +44,33 @@ $UserProperties = $null
 $loc = $null
 $domains = $null
 
-$filter = {(enabled -eq $true) -and (msExchHideFromAddressLists -ne $true) -and (employeeID -like "*") }
-$UserProperties = "BadLogonCount","CanonicalName","Description","DisplayName","DistinguishedName","EmployeeID","Enabled","GivenName","LastBadPasswordAttempt","LockedOut","lockouttime","mail","msExchHideFromAddressLists","Name","PasswordExpired","PasswordLastSet","SamAccountName","SID","Surname","telephoneNumber","useraccountcontrol","UserPrincipalName","whenchanged","whencreated"
+$filter = { (enabled -eq $true) -and (msExchHideFromAddressLists -ne $true) -and (employeeID -like "*") }
+$UserProperties = "BadLogonCount", "CanonicalName", "Description", "DisplayName", "DistinguishedName", "EmployeeID", "Enabled", "GivenName", "LastBadPasswordAttempt", "LockedOut", "lockouttime", "mail", "msExchHideFromAddressLists", "Name", "PasswordExpired", "PasswordLastSet", "SamAccountName", "SID", "Surname", "telephoneNumber", "useraccountcontrol", "UserPrincipalName", "whenchanged", "whencreated"
 $SelectProperties = @()
-$SelectProperties += @{name="AccountName";Expression={$domain.netbiosname + "\" + $_.samaccountname}}
+$SelectProperties += @{name = "AccountName"; Expression = { $domain.netbiosname + "\" + $_.samaccountname } }
 $SelectProperties += $UserProperties
 
 $loc = Get-Location
 
-CD $env:USERPROFILE
+Set-Location $env:USERPROFILE
 
-$Domains = ((Get-ADForest).domains | Get-ADDomain | select NetBIOSName,ChildDomains,DistinguishedName,DNSRoot,@{name="drive";e={$_.netbiosname + ':'}})
+$Domains = ((Get-ADForest).domains | Get-ADDomain | Select-Object NetBIOSName, ChildDomains, DistinguishedName, DNSRoot, @{name = "drive"; e = { $_.netbiosname + ':' } })
 
 # Attach Domains
-ForEach ($domain in $domains)
-{
+ForEach ($domain in $domains) {
     New-PSDrive -name $Domain.NetBIOSName -PSProvider ActiveDirectory -root $Domain.DistinguishedName -server $Domain.DNSRoot -ErrorAction SilentlyContinue | Out-Null
 }
 
 # Get User Information
-$users = ForEach ($domain in $domains)
-{
-    CD $Domain.drive
+$users = ForEach ($domain in $domains) {
+    Set-Location $Domain.drive
     # Get-ADUser -filter $filter -searchbase $domain.DistinguishedName -properties $UserProperties | select @{name="AccountName";Expression={$domain.netbiosname+"\"+$_.samaccountname}},*
     # Get-ADUser -filter * -searchbase $domain.DistinguishedName -properties $UserProperties | select @{name="AccountName";Expression={$domain.netbiosname+"\"+$_.samaccountname}},*
-    Get-ADUser -filter $filter -searchbase $domain.DistinguishedName -properties $UserProperties | select $SelectProperties
+    Get-ADUser -filter $filter -searchbase $domain.DistinguishedName -properties $UserProperties | Select-Object $SelectProperties
 }
 
 
-CD $loc
+Set-Location $loc
 
 # Export Data to CSV
 $users | Export-Csv -NoTypeInformation $env:USERPROFILE\Documents\allADUsers$(get-date -format yyyyMMdd).csv 

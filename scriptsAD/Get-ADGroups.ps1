@@ -4,10 +4,11 @@ $Forest = (Get-ADForest).domains
 
 $Domains = foreach ( $Domain in $Forest ) {
     $objTemp = Get-ADDomain $Domain
-    $properties = @{ NetBIOSName       = $objTemp.NetBIOSName
-                        DistinguishedName = $objTemp.DistinguishedName
-                        DNSRoot           = $objTemp.DNSRoot
-                        Drive             = $objTemp.NetBIOSName + ':' }
+    $properties = @{ NetBIOSName = $objTemp.NetBIOSName
+        DistinguishedName        = $objTemp.DistinguishedName
+        DNSRoot                  = $objTemp.DNSRoot
+        Drive                    = $objTemp.NetBIOSName + ':' 
+    }
     $output = New-Object -TypeName PSObject -Property $properties
     New-PSDrive -name $output.NetBIOSName -PSProvider ActiveDirectory -root $output.DistinguishedName -server $output.DNSRoot -ErrorAction SilentlyContinue | Out-Null
 
@@ -16,14 +17,15 @@ $Domains = foreach ( $Domain in $Forest ) {
 
 Foreach ( $domain in $domains ) {
     Set-Location $Domain.drive
-    $Groups = get-adgroup -filter {*} -properties *
+    $Groups = get-adgroup -filter { * } -properties *
     foreach ( $Group in $Groups ) {
         if ( $Group.ManagedBy -ne "" ) {
             $HasOwner = $True
-        } ELSE {
+        }
+        ELSE {
             $HasOwner = $false
         } # End IF
-        $properties = @{
+        $properties = [ordered]@{
             'Domain'                          = $Domain.NetBIOSName
             'FQDNAccountName'                 = $Domain.NetBIOSName + "\" + $Group.SamAccountName
             'CanonicalName'                   = $Group.CanonicalName
@@ -52,7 +54,7 @@ Foreach ( $domain in $domains ) {
             'ObjectGUID'                      = $Group.ObjectGUID
             'objectSid'                       = $Group.objectSid
             'ProtectedFromAccidentalDeletion' = $Group.ProtectedFromAccidentalDeletion
-            'proxyAddresses'                  = ( $Group.proxyAddresses | where {$_ -like "smtp:*"} ) -join ';'
+            'proxyAddresses'                  = ( $Group.proxyAddresses | Where-Object { $_ -like "smtp:*" } ) -join ';'
             'SamAccountName'                  = $Group.SamAccountName
             'sAMAccountType'                  = $Group.sAMAccountType
             'SID'                             = $Group.SID
