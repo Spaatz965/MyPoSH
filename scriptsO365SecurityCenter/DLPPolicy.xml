@@ -1,0 +1,500 @@
+<?xml version="1.0" encoding="UTF-8"?>
+{
+    "Policies": [
+        {
+            <Name>Financial Data</Name>
+            <Comment>Checks for financial content</Comment>
+            <ExchangeLocation>All</ExchangeLocation>
+            <Mode>TestWithoutNotifications</Mode>
+            <!--  Enable | TestWithNotifications | TestWithoutNotifications | Disable | PendingDeletion  -->
+            <OneDriveLocation>All</OneDriveLocation>
+            <OneDriveLocationException>null</OneDriveLocationException>
+            <SharePointLocation>All</SharePointLocation>
+            <SharePointLocationException>null</SharePointLocationException>
+            "Rules": [
+                {
+                    <Name>Low Risk Financial Data</Name>
+                    <AccessScope>InOrganization</AccessScope>
+                    <!--  InOrganization | NotInOrganization  -->
+                    <BlockAccess>false</BlockAccess>
+                    <BlockAccessScope>null</BlockAccessScope>
+                    <!--  All | PerUser  -->
+                    <Comment>Lower risk, likely individual/personal use</Comment>
+                    "ContentContainsSensitiveInformation": [
+                        {
+                            <Name>cb353f78-2b72-4c3c-8827-92ebe4f69fdf</Name>
+                            <minCount>1</minCount>
+                            <maxCount>5</maxCount>
+                            <minConfidence>75</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                            <!--  -1 equals 'ANY'  -->
+                        },
+                        {
+                            <Name>U.S. Bank Account Number</Name>
+                            <minCount>1</minCount>
+                            <maxCount>5</maxCount>
+                            <minConfidence>75</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>Credit Card Number</Name>
+                            <minCount>1</minCount>
+                            <maxCount>5</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>EU Debit Card Number</Name>
+                            <minCount>1</minCount>
+                            <maxCount>5</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>International Banking Account Number (IBAN)</Name>
+                            <minCount>1</minCount>
+                            <maxCount>5</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        }
+                    ],
+                    <ContentPropertyContainsWords>null</ContentPropertyContainsWords>
+                    <Disabled>false</Disabled>
+                    "GenerateAlert": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "GenerateIncidentReport": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "IncidentReportContent": [
+                        "All"
+                    ],
+                    <!--  All | Default | Detections | DocumentAuthor | DocumentLastModifier | MatchedItem | RulesMatched | Service | Severity | Service | Title  -->
+                    "NotifyAllowOverride": [
+                        "FalsePositive",
+                        "WithoutJustification"
+                    ],
+                    <!--  FalsePositive | WithoutJustification | WithJustification -->
+                    <NotifyEmailCustomText>null</NotifyEmailCustomText>
+                    <NotifyPolicyTipCustomText>null</NotifyPolicyTipCustomText>
+                    "NotifyUser": [
+                        "LastModifier",
+                        "Owner",
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    <ReportSeverityLevel>Low</ReportSeverityLevel>
+                    <!--  Low | Medium | High | None  -->
+                    <RuleErrorAction>null</RuleErrorAction>
+                    <!--  	Ignore | RetryThenBlock | null  -->
+                },
+                {
+                    <Name>Medium Risk Financial Data</Name>
+                    <AccessScope>InOrganization</AccessScope>
+                    <!--  InOrganization | NotInOrganization  -->
+                    "BlockAccess": true,
+                    <BlockAccessScope>null</BlockAccessScope>
+                    <!--  All | PerUser  -->
+                    <Comment>Moderate risk financial data</Comment>
+                    "ContentContainsSensitiveInformation": [
+                        {
+                            <Name>cb353f78-2b72-4c3c-8827-92ebe4f69fdf</Name>
+                            <minCount>6</minCount>
+                            <maxCount>10</maxCount>
+                            <minConfidence>75</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                            <!--  -1 equals 'ANY'  -->
+                        },
+                        {
+                            <Name>U.S. Bank Account Number</Name>
+                            <minCount>6</minCount>
+                            <maxCount>10</maxCount>
+                            <minConfidence>75</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>Credit Card Number</Name>
+                            <minCount>6</minCount>
+                            <maxCount>10</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>EU Debit Card Number</Name>
+                            <minCount>6</minCount>
+                            <maxCount>10</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>International Banking Account Number (IBAN)</Name>
+                            <minCount>6</minCount>
+                            <maxCount>10</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        }
+                    ],
+                    <ContentPropertyContainsWords>null</ContentPropertyContainsWords>
+                    <Disabled>false</Disabled>
+                    "GenerateAlert": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "GenerateIncidentReport": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "IncidentReportContent": [
+                        "All"
+                    ],
+                    <!--  All | Default | Detections | DocumentAuthor | DocumentLastModifier | MatchedItem | RulesMatched | Service | Severity | Service | Title  -->
+                    "NotifyAllowOverride": [
+                        "FalsePositive",
+                        "WithoutJustification"
+                    ],
+                    <!--  FalsePositive | WithoutJustification | WithJustification -->
+                    <NotifyEmailCustomText>null</NotifyEmailCustomText>
+                    <NotifyPolicyTipCustomText>null</NotifyPolicyTipCustomText>
+                    "NotifyUser": [
+                        "LastModifier",
+                        "Owner",
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    <ReportSeverityLevel>Medium</ReportSeverityLevel>
+                    <!--  Low | Medium | High | None  -->
+                    <RuleErrorAction>null</RuleErrorAction>
+                    <!--  	Ignore | RetryThenBlock | null  -->
+                },
+                {
+                    <Name>High Risk Financial Data</Name>
+                    <AccessScope>InOrganization</AccessScope>
+                    <!--  InOrganization | NotInOrganization  -->
+                    "BlockAccess": true,
+                    <BlockAccessScope>null</BlockAccessScope>
+                    <!--  All | PerUser  -->
+                    <Comment>High Risk Financial Data</Comment>
+                    "ContentContainsSensitiveInformation": [
+                        {
+                            <Name>cb353f78-2b72-4c3c-8827-92ebe4f69fdf</Name>
+                            <minCount>11</minCount>
+                            <maxCount>-1</maxCount>
+                            <minConfidence>75</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                            <!--  -1 equals 'ANY'  -->
+                        },
+                        {
+                            <Name>U.S. Bank Account Number</Name>
+                            <minCount>11</minCount>
+                            <maxCount>-1</maxCount>
+                            <minConfidence>75</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>Credit Card Number</Name>
+                            <minCount>11</minCount>
+                            <maxCount>-1</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>EU Debit Card Number</Name>
+                            <minCount>11</minCount>
+                            <maxCount>-1</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>International Banking Account Number (IBAN)</Name>
+                            <minCount>11</minCount>
+                            <maxCount>-1</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        }
+                    ],
+                    <ContentPropertyContainsWords>null</ContentPropertyContainsWords>
+                    <Disabled>false</Disabled>
+                    "GenerateAlert": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "GenerateIncidentReport": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "IncidentReportContent": [
+                        "All"
+                    ],
+                    <!--  All | Default | Detections | DocumentAuthor | DocumentLastModifier | MatchedItem | RulesMatched | Service | Severity | Service | Title  -->
+                    "NotifyAllowOverride": [
+                        "WithJustification"
+                    ],
+                    <!--  FalsePositive | WithoutJustification | WithJustification -->
+                    <NotifyEmailCustomText>null</NotifyEmailCustomText>
+                    <NotifyPolicyTipCustomText>null</NotifyPolicyTipCustomText>
+                    "NotifyUser": [
+                        "LastModifier",
+                        "Owner",
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    <ReportSeverityLevel>High</ReportSeverityLevel>
+                    <!--  Low | Medium | High | None  -->
+                    <RuleErrorAction>null</RuleErrorAction>
+                    <!--  	Ignore | RetryThenBlock | null  -->
+                }
+            ]
+        },
+        {
+            <Name>Tech Data</Name>
+            <Comment>Checks for Information Technology content</Comment>
+            <ExchangeLocation>All</ExchangeLocation>
+            <ExchangeOnPremisesLocation>null</ExchangeOnPremisesLocation>
+            <Mode>TestWithoutNotifications</Mode>
+            <!--  Enable | TestWithNotifications | TestWithoutNotifications | Disable | PendingDeletion  -->
+            <OneDriveLocation>All</OneDriveLocation>
+            <OneDriveLocationException>null</OneDriveLocationException>
+            <SharePointLocation>All</SharePointLocation>
+            <SharePointLocationException>null</SharePointLocationException>
+            <SharePointOnPremisesLocationException>null</SharePointOnPremisesLocationException>
+            <SharePointServerLocation>null</SharePointServerLocation>
+            "Rules": [
+                {
+                    <Name>Low Risk Tech Data</Name>
+                    <AccessScope>InOrganization</AccessScope>
+                    <!--  InOrganization | NotInOrganization  -->
+                    <BlockAccess>false</BlockAccess>
+                    <BlockAccessScope>null</BlockAccessScope>
+                    <!--  All | PerUser  -->
+                    <Comment>Lower risk, likely individual/personal use</Comment>
+                    "ContentContainsSensitiveInformation": [
+                        {
+                            <Name>IP Address</Name>
+                            <minCount>1</minCount>
+                            <maxCount>5</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                            <!--  -1 equals 'ANY'  -->
+                        },
+                        {
+                            <Name>Azure DocumentDB Auth Key</Name>
+                            <minCount>1</minCount>
+                            <maxCount>5</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>Azure IAAS Database Connection String and Azure SQL Connection String</Name>
+                            <minCount>1</minCount>
+                            <maxCount>5</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>Azure IoT Connection String</Name>
+                            <minCount>1</minCount>
+                            <maxCount>5</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>Azure Publish Setting Password</Name>
+                            <minCount>1</minCount>
+                            <maxCount>5</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        }
+                    ],
+                    <ContentPropertyContainsWords>null</ContentPropertyContainsWords>
+                    <Disabled>false</Disabled>
+                    "GenerateAlert": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "GenerateIncidentReport": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "IncidentReportContent": [
+                        "All"
+                    ],
+                    <!--  All | Default | Detections | DocumentAuthor | DocumentLastModifier | MatchedItem | RulesMatched | Service | Severity | Service | Title  -->
+                    "NotifyAllowOverride": [
+                        "FalsePositive",
+                        "WithoutJustification"
+                    ],
+                    <!--  FalsePositive | WithoutJustification | WithJustification -->
+                    <NotifyEmailCustomText>null</NotifyEmailCustomText>
+                    <NotifyPolicyTipCustomText>null</NotifyPolicyTipCustomText>
+                    "NotifyUser": [
+                        "LastModifier",
+                        "Owner",
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    <ReportSeverityLevel>Low</ReportSeverityLevel>
+                    <!--  Low | Medium | High | None  -->
+                    <RuleErrorAction>null</RuleErrorAction>
+                    <!--  	Ignore | RetryThenBlock | null  -->
+                },
+                {
+                    <Name>Medium Risk Tech Data</Name>
+                    <AccessScope>InOrganization</AccessScope>
+                    <!--  InOrganization | NotInOrganization  -->
+                    "BlockAccess": true,
+                    <BlockAccessScope>null</BlockAccessScope>
+                    <!--  All | PerUser  -->
+                    <Comment>Moderate risk Tech data</Comment>
+                    "ContentContainsSensitiveInformation": [
+                        {
+                            <Name>IP Address</Name>
+                            <minCount>6</minCount>
+                            <maxCount>10</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                            <!--  -1 equals 'ANY'  -->
+                        },
+                        {
+                            <Name>Azure DocumentDB Auth Key</Name>
+                            <minCount>6</minCount>
+                            <maxCount>10</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>Azure IAAS Database Connection String and Azure SQL Connection String</Name>
+                            <minCount>6</minCount>
+                            <maxCount>10</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>Azure IoT Connection String</Name>
+                            <minCount>6</minCount>
+                            <maxCount>10</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>Azure Publish Setting Password</Name>
+                            <minCount>6</minCount>
+                            <maxCount>10</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        }
+                    ],
+                    <ContentPropertyContainsWords>null</ContentPropertyContainsWords>
+                    <Disabled>false</Disabled>
+                    "GenerateAlert": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "GenerateIncidentReport": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "IncidentReportContent": [
+                        "All"
+                    ],
+                    <!--  All | Default | Detections | DocumentAuthor | DocumentLastModifier | MatchedItem | RulesMatched | Service | Severity | Service | Title  -->
+                    "NotifyAllowOverride": [
+                        "FalsePositive",
+                        "WithoutJustification"
+                    ],
+                    <!--  FalsePositive | WithoutJustification | WithJustification -->
+                    <NotifyEmailCustomText>null</NotifyEmailCustomText>
+                    <NotifyPolicyTipCustomText>null</NotifyPolicyTipCustomText>
+                    "NotifyUser": [
+                        "LastModifier",
+                        "Owner",
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    <ReportSeverityLevel>Medium</ReportSeverityLevel>
+                    <!--  Low | Medium | High | None  -->
+                    <RuleErrorAction>null</RuleErrorAction>
+                    <!--  	Ignore | RetryThenBlock | null  -->
+                },
+                {
+                    <Name>High Risk Tech Data</Name>
+                    <AccessScope>InOrganization</AccessScope>
+                    <!--  InOrganization | NotInOrganization  -->
+                    "BlockAccess": true,
+                    <BlockAccessScope>null</BlockAccessScope>
+                    <!--  All | PerUser  -->
+                    <Comment>High Risk Tech Data</Comment>
+                    "ContentContainsSensitiveInformation": [
+                        {
+                            <Name>Azure DocumentDB Auth Key</Name>
+                            <minCount>11</minCount>
+                            <maxCount>-1</maxCount>
+                            <minConfidence>75</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                            <!--  -1 equals 'ANY'  -->
+                        },
+                        {
+                            <Name>Azure IAAS Database Connection String and Azure SQL Connection String</Name>
+                            <minCount>11</minCount>
+                            <maxCount>-1</maxCount>
+                            <minConfidence>75</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>Azure IoT Connection String</Name>
+                            <minCount>11</minCount>
+                            <maxCount>-1</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>Azure Publish Setting Password</Name>
+                            <minCount>11</minCount>
+                            <maxCount>-1</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        },
+                        {
+                            <Name>IP Address</Name>
+                            <minCount>11</minCount>
+                            <maxCount>-1</maxCount>
+                            <minConfidence>85</minConfidence>
+                            <maxConfidence>100</maxConfidence>
+                        }
+                    ],
+                    <ContentPropertyContainsWords>null</ContentPropertyContainsWords>
+                    <Disabled>false</Disabled>
+                    "GenerateAlert": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "GenerateIncidentReport": [
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    "IncidentReportContent": [
+                        "All"
+                    ],
+                    <!--  All | Default | Detections | DocumentAuthor | DocumentLastModifier | MatchedItem | RulesMatched | Service | Severity | Service | Title  -->
+                    "NotifyAllowOverride": [
+                        "WithJustification"
+                    ],
+                    <!--  FalsePositive | WithoutJustification | WithJustification -->
+                    <NotifyEmailCustomText>null</NotifyEmailCustomText>
+                    <NotifyPolicyTipCustomText>null</NotifyPolicyTipCustomText>
+                    "NotifyUser": [
+                        "LastModifier",
+                        "Owner",
+                        "SiteAdmin",
+                        "User@example.com"
+                    ],
+                    <ReportSeverityLevel>High</ReportSeverityLevel>
+                    <!--  Low | Medium | High | None  -->
+                    <RuleErrorAction>null</RuleErrorAction>
+                    <!--  	Ignore | RetryThenBlock | null  -->
+                }
+            ]
+        }
+    ]
+}

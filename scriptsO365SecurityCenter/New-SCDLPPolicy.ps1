@@ -30,6 +30,9 @@ function New-SCDLPPolicy {
 	Micah Rairdon for file path parameter validation
 	https://4sysops.com/archives/validating-file-and-folder-paths-in-powershell-parameters/
 
+.LINK
+https://docs.microsoft.com/en-us/powershell/exchange/office-365-scc/connect-to-scc-powershell/connect-to-scc-powershell?view=exchange-ps
+
 .COMPONENT
     Office 365 Security and Compliance Center.
 
