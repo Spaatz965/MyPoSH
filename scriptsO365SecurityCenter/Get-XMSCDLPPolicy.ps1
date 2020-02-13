@@ -106,100 +106,99 @@ https://docs.microsoft.com/en-us/powershell/exchange/office-365-scc/connect-to-s
 
     PROCESS {
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] "
-        $Policies = Get-DLPCompliancePolicy
-        Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] `r`n$($policies.name -join "`r`n") "
+        $CompliancePolicies = Get-DLPCompliancePolicy
 
 
-        foreach ( $Pol in $Policies) {
-            #$Policy2 | Get-Member
+        foreach ( $CompliancePolicy in $CompliancePolicies) {
+
             Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] Writing policy elements"
-            Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] $($Pol.name)"
+            Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] $($CompliancePolicy.name)"
 
             $xmlWriter.WriteStartElement( 'Policy' )
-            $xmlWriter.WriteElementString( 'Name', "$($Pol.Name)" )
-            $xmlWriter.WriteElementString( 'Comment', $Pol.Comment )
-            $xmlWriter.WriteElementString( 'Priority', $Pol.Priority )
-            $xmlWriter.WriteElementString( 'Mode', $Pol.Mode )
+            $xmlWriter.WriteElementString( 'Name', "$($CompliancePolicy.Name)" )
+            $xmlWriter.WriteElementString( 'Comment', $CompliancePolicy.Comment )
+            $xmlWriter.WriteElementString( 'Priority', $CompliancePolicy.Priority )
+            $xmlWriter.WriteElementString( 'Mode', $CompliancePolicy.Mode )
             $xmlWriter.WriteComment(' Mode Options: Enable | TestWithNotifications | TestWithoutNotifications | Disable | PendingDeletion ')
-            $xmlWriter.WriteElementString( 'Workload', $Pol.Workload )
-            $xmlWriter.WriteElementString( 'CreatedBy', $Pol.CreatedBy )
-            $xmlWriter.WriteElementString( 'LastModifiedBy', $Pol.LastModifiedBy )
-            $xmlWriter.WriteElementString( 'CreationTimeUtc', $Pol.CreationTimeUtc )
-            $xmlWriter.WriteElementString( 'ModificationTimeUtc', $Pol.ModificationTimeUtc )
+            $xmlWriter.WriteElementString( 'Workload', $CompliancePolicy.Workload )
+            $xmlWriter.WriteElementString( 'CreatedBy', $CompliancePolicy.CreatedBy )
+            $xmlWriter.WriteElementString( 'LastModifiedBy', $CompliancePolicy.LastModifiedBy )
+            $xmlWriter.WriteElementString( 'CreationTimeUtc', $CompliancePolicy.CreationTimeUtc )
+            $xmlWriter.WriteElementString( 'ModificationTimeUtc', $CompliancePolicy.ModificationTimeUtc )
 
-            foreach ( $ExchangeLocation in $Pol.ExchangeLocation ) {
+            foreach ( $ExchangeLocation in $CompliancePolicy.ExchangeLocation ) {
                 $xmlWriter.WriteElementString( 'ExchangeLocation', $ExchangeLocation )
-            } # foreach $ExchangeLocation in $Pol.ExchangeLocation
+            } # foreach $ExchangeLocation in $CompliancePolicy.ExchangeLocation
 
-            foreach ( $SharePointLocation in $Pol.SharePointLocation ) {
-                $xmlWriter.WriteElementString( 'SharePointLocation', $SharePointLocation )
-            } # foreach $SharePointLocation in $Pol.SharePointLocation
+            foreach ( $SharePointLocation in $CompliancePolicy.SharePointLocation ) {
+                $xmlWriter.WriteElementString( 'SharePointLocation', $SharePointLocation.Name )
+            } # foreach $SharePointLocation in $CompliancePolicy.SharePointLocation
 
-            foreach ( $SharePointLocationException in $Pol.SharePointLocationException ) {
-                $xmlWriter.WriteElementString( 'SharePointLocationException', $SharePointLocationException )
-            } # foreach $SharePointLocationException in $Pol.SharePointLocationException
+            foreach ( $SharePointLocationException in $CompliancePolicy.SharePointLocationException ) {
+                $xmlWriter.WriteElementString( 'SharePointLocationException', $SharePointLocationException.Name )
+            } # foreach $SharePointLocationException in $CompliancePolicy.SharePointLocationException
 
-            foreach ( $OneDriveLocation in $Pol.OneDriveLocation ) {
-                $xmlWriter.WriteElementString( 'OneDriveLocation', $OneDriveLocation )
-            } # foreach $OneDriveLocation in $Pol.OneDriveLocation
+            foreach ( $OneDriveLocation in $CompliancePolicy.OneDriveLocation ) {
+                $xmlWriter.WriteElementString( 'OneDriveLocation', $OneDriveLocation.Name )
+            } # foreach $OneDriveLocation in $CompliancePolicy.OneDriveLocation
 
-            foreach ( $OneDriveLocationException in $Pol.OneDriveLocationException ) {
-                $xmlWriter.WriteElementString( 'OneDriveLocationException', $OneDriveLocationException )
-            } # foreach $OneDriveLocationException in $Pol.OneDriveLocationException
+            foreach ( $OneDriveLocationException in $CompliancePolicy.OneDriveLocationException ) {
+                $xmlWriter.WriteElementString( 'OneDriveLocationException', $OneDriveLocationException.Name )
+            } # foreach $OneDriveLocationException in $CompliancePolicy.OneDriveLocationException
 
-            foreach ( $ExchangeOnPremisesLocation in $Pol.ExchangeOnPremisesLocation ) {
+            foreach ( $ExchangeOnPremisesLocation in $CompliancePolicy.ExchangeOnPremisesLocation ) {
                 $xmlWriter.WriteElementString( 'ExchangeOnPremisesLocation', $ExchangeOnPremisesLocation )
-            } # foreach $ExchangeOnPremisesLocation in $Pol.ExchangeOnPremisesLocation
+            } # foreach $ExchangeOnPremisesLocation in $CompliancePolicy.ExchangeOnPremisesLocation
 
-            foreach ( $SharePointOnPremisesLocation in $Pol.SharePointOnPremisesLocation ) {
+            foreach ( $SharePointOnPremisesLocation in $CompliancePolicy.SharePointOnPremisesLocation ) {
                 $xmlWriter.WriteElementString( 'SharePointOnPremisesLocation', $SharePointOnPremisesLocation )
-            } # foreach $SharePointOnPremisesLocation in $Pol.SharePointOnPremisesLocation
+            } # foreach $SharePointOnPremisesLocation in $CompliancePolicy.SharePointOnPremisesLocation
 
-            foreach ( $SharePointOnPremisesLocationException in $Pol.SharePointOnPremisesLocationException ) {
+            foreach ( $SharePointOnPremisesLocationException in $CompliancePolicy.SharePointOnPremisesLocationException ) {
                 $xmlWriter.WriteElementString( 'SharePointOnPremisesLocationException', $SharePointOnPremisesLocationException )
-            } # foreach $SharePointOnPremisesLocationException in $Pol.SharePointOnPremisesLocationException
+            } # foreach $SharePointOnPremisesLocationException in $CompliancePolicy.SharePointOnPremisesLocationException
 
-            foreach ( $TeamsLocation in $Pol.TeamsLocation ) {
+            foreach ( $TeamsLocation in $CompliancePolicy.TeamsLocation ) {
                 $xmlWriter.WriteElementString( 'TeamsLocation', $TeamsLocation )
-            } # foreach $TeamsLocation in $Pol.TeamsLocation
+            } # foreach $TeamsLocation in $CompliancePolicy.TeamsLocation
 
-            foreach ( $TeamsLocationException in $Pol.TeamsLocationException ) {
+            foreach ( $TeamsLocationException in $CompliancePolicy.TeamsLocationException ) {
                 $xmlWriter.WriteElementString( 'TeamsLocationException', $TeamsLocationException )
-            } # foreach $TeamsLocationException in $Pol.TeamsLocationException
+            } # foreach $TeamsLocationException in $CompliancePolicy.TeamsLocationException
 
-            foreach ( $EndpointDlpLocation in $Pol.EndpointDlpLocation ) {
+            foreach ( $EndpointDlpLocation in $CompliancePolicy.EndpointDlpLocation ) {
                 $xmlWriter.WriteElementString( 'EndpointDlpLocation', $EndpointDlpLocation )
-            } # foreach $EndpointDlpLocation in $Pol.EndpointDlpLocation
+            } # foreach $EndpointDlpLocation in $CompliancePolicy.EndpointDlpLocation
 
-            foreach ( $EndpointDlpLocationException in $Pol.EndpointDlpLocationException ) {
+            foreach ( $EndpointDlpLocationException in $CompliancePolicy.EndpointDlpLocationException ) {
                 $xmlWriter.WriteElementString( 'EndpointDlpLocationException', $EndpointDlpLocationException )
-            } # foreach $EndpointDlpLocationException in $Pol.EndpointDlpLocationException
+            } # foreach $EndpointDlpLocationException in $CompliancePolicy.EndpointDlpLocationException
 
-            foreach ( $ExchangeSender in $Pol.ExchangeSender ) {
+            foreach ( $ExchangeSender in $CompliancePolicy.ExchangeSender ) {
                 $xmlWriter.WriteElementString( 'ExchangeSender', $ExchangeSender )
-            } # foreach $ExchangeSender in $Pol.ExchangeSender
+            } # foreach $ExchangeSender in $CompliancePolicy.ExchangeSender
 
-            foreach ( $ExchangeSenderMemberOf in $Pol.ExchangeSenderMemberOf ) {
+            foreach ( $ExchangeSenderMemberOf in $CompliancePolicy.ExchangeSenderMemberOf ) {
                 $xmlWriter.WriteElementString( 'ExchangeSenderMemberOf', $ExchangeSenderMemberOf )
-            } # foreach $ExchangeSenderMemberOf in $Pol.ExchangeSenderMemberOf
+            } # foreach $ExchangeSenderMemberOf in $CompliancePolicy.ExchangeSenderMemberOf
 
-            foreach ( $ExchangeSenderException in $Pol.ExchangeSenderException ) {
+            foreach ( $ExchangeSenderException in $CompliancePolicy.ExchangeSenderException ) {
                 $xmlWriter.WriteElementString( 'ExchangeSenderException', $ExchangeSenderException )
-            } # foreach $ExchangeSenderException in $Pol.ExchangeSenderException
+            } # foreach $ExchangeSenderException in $CompliancePolicy.ExchangeSenderException
 
-            foreach ( $ExchangeSenderMemberOfException in $Pol.ExchangeSenderMemberOfException ) {
+            foreach ( $ExchangeSenderMemberOfException in $CompliancePolicy.ExchangeSenderMemberOfException ) {
                 $xmlWriter.WriteElementString( 'ExchangeSenderMemberOfException', $ExchangeSenderMemberOfException )
-            } # foreach $ExchangeSenderMemberOfException in $Pol.ExchangeSenderMemberOfException
+            } # foreach $ExchangeSenderMemberOfException in $CompliancePolicy.ExchangeSenderMemberOfException
 
             Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] Getting Rules"
-            Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] $($Pol.Name)"
+            Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] $($CompliancePolicy.Name)"
 
-            $rules = Get-DLPComplianceRule -Policy $Pol.Name
+            $rules = Get-DLPComplianceRule -Policy $CompliancePolicy.Name
 
             foreach ( $rule in $rules ) {
                 $xmlWriter.WriteStartElement( 'Rule' )
                 $xmlWriter.WriteElementString( 'Name', $rule.Name )
-                $xmlWriter.WriteElementString( 'ParentPolicyName', $Pol.Name )
+                $xmlWriter.WriteElementString( 'ParentPolicyName', $CompliancePolicy.Name )
                 $xmlWriter.WriteElementString( 'Priority', $rule.Priority )
                 $xmlWriter.WriteElementString( 'AccessScope', $rule.AccessScope )
                 $xmlWriter.WriteComment(' AccessScope Options: InOrganization | NotInOrganization ')
@@ -260,7 +259,7 @@ https://docs.microsoft.com/en-us/powershell/exchange/office-365-scc/connect-to-s
             } # foreach $rule in $rules
 
             $xmlWriter.WriteEndElement()
-        } # foreach $Policy in $Policies
+        } # foreach $CompliancePolicy in $CompliancePolicies
 
     } # PROCESS
 
