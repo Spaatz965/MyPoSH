@@ -73,11 +73,10 @@ checked)
 
 Acknowledgements for reading and writing XML via PowerShell
 -----------------------------------------------------------
-Bertrand, Adam, n.d., "PowerShell offers several ways to read XML documents, without writing a lot of code."
-   https://www.business.com/articles/powershell-read-xml-files/
-Bertrand, Adam, 18 Nov 2015, "Using PowerShell to create XML documents",
-   https://searchwindowsserver.techtarget.com/tip/Using-PowerShell-to-create-XML-documents
-Hicks, Jeff, 6 Jan 2017, "Creating Custom XML from .NET and PowerShell",
-   https://www.petri.com/creating-custom-xml-net-powershell
-Weltner, Tobias, 19 Aug 2013, "Mastering everyday XML tasks in PowerShell",
-   https://www.powershellmagazine.com/2013/08/19/mastering-everyday-xml-tasks-in-powershell/
+Bertrand, Adam, n.d., "[PowerShell offers several ways to read XML documents, without writing a lot of code.](https://www.business.com/articles/powershell-read-xml-files/)"
+
+Bertrand, Adam, 18 Nov 2015, "[Using PowerShell to create XML documents](https://searchwindowsserver.techtarget.com/tip/Using-PowerShell-to-create-XML-documents)"
+
+Hicks, Jeff, 6 Jan 2017, "[Creating Custom XML from .NET and PowerShell](https://www.petri.com/creating-custom-xml-net-powershell)"
+
+Weltner, Tobias, 19 Aug 2013, "[Mastering everyday XML tasks in PowerShell](https://www.powershellmagazine.com/2013/08/19/mastering-everyday-xml-tasks-in-powershell/)"
