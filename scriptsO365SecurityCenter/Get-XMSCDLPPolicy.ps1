@@ -19,8 +19,8 @@ function Get-XMSCDLPPolicy {
     $ENV:USERPROFILE\Documents\DLPPolicyReport$(Get-Date -Format FileDateTime).xml
 
 .PARAMETER  Policy
-    The name or names of the policy/policies to be reported on. If omitted,
-    all policies will be reported.
+    The name of the policy/policies to be reported on. If omitted, all policies
+    will be reported.
 
 .EXAMPLE
     Get-XMSCDLPPolicy -Path "C:\Policy.xml"
@@ -30,11 +30,6 @@ function Get-XMSCDLPPolicy {
     Get-XMSCDLPPolicy -Policy "Example1"
     Reports the policy named "Example1" into the default file location.
 
-.EXAMPLE
-    Get-XMSCDLPPolicy -Policy "Example1","Example2"
-    Reports the policies named "Example1" and "Example2" into the default file
-    location.
-
 .NOTES
     Additional information about the function or script.
     File Name      : Get-XMSCDLPPolicy.ps1
@@ -43,7 +38,7 @@ function Get-XMSCDLPPolicy {
                      Security & Compliance Center with sufficient permissions
                      to read DLP Policies and Rules.
     Version        : 1.0
-    Date           : 12 February 2020
+    Date           : 13 February 2020
 
     ACKNOWLEDGEMENTS
     Bertrand, Adam, 18 Nov 2015, "Using PowerShell to create XML documents",
@@ -91,8 +86,13 @@ https://docs.microsoft.com/en-us/powershell/exchange/office-365-scc/connect-to-s
         # Write-Verbose $EnvironmentData
         # TODO: Error Checking to ensure remoting to tenant S&C PowerShell
 
-
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) BEGIN   ] Getting Policies"
+        if ( !$Policy ) {
+            $CompliancePolicies = Get-DLPCompliancePolicy
+        }
+        else {
+            $CompliancePolicies = Get-DLPCompliancePolicy -Identity $Policy
+        }
 
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) BEGIN   ] Initiating XML File"
         $xmlWriter = New-Object System.XMl.XmlTextWriter( $Path, $Null )
@@ -101,13 +101,11 @@ https://docs.microsoft.com/en-us/powershell/exchange/office-365-scc/connect-to-s
         $XmlWriter.IndentChar = "`t"
         $xmlWriter.WriteStartDocument()
         $xmlWriter.WriteStartElement( 'Policies' )
-
+        
     } # BEGIN
 
     PROCESS {
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] "
-        $CompliancePolicies = Get-DLPCompliancePolicy
-
 
         foreach ( $CompliancePolicy in $CompliancePolicies) {
 
@@ -127,7 +125,7 @@ https://docs.microsoft.com/en-us/powershell/exchange/office-365-scc/connect-to-s
             $xmlWriter.WriteElementString( 'ModificationTimeUtc', $CompliancePolicy.ModificationTimeUtc )
 
             foreach ( $ExchangeLocation in $CompliancePolicy.ExchangeLocation ) {
-                $xmlWriter.WriteElementString( 'ExchangeLocation', $ExchangeLocation )
+                $xmlWriter.WriteElementString( 'ExchangeLocation', $ExchangeLocation.Name )
             } # foreach $ExchangeLocation in $CompliancePolicy.ExchangeLocation
 
             foreach ( $SharePointLocation in $CompliancePolicy.SharePointLocation ) {
@@ -147,103 +145,104 @@ https://docs.microsoft.com/en-us/powershell/exchange/office-365-scc/connect-to-s
             } # foreach $OneDriveLocationException in $CompliancePolicy.OneDriveLocationException
 
             foreach ( $ExchangeOnPremisesLocation in $CompliancePolicy.ExchangeOnPremisesLocation ) {
-                $xmlWriter.WriteElementString( 'ExchangeOnPremisesLocation', $ExchangeOnPremisesLocation )
+                $xmlWriter.WriteElementString( 'ExchangeOnPremisesLocation', $ExchangeOnPremisesLocation.Name )
             } # foreach $ExchangeOnPremisesLocation in $CompliancePolicy.ExchangeOnPremisesLocation
 
             foreach ( $SharePointOnPremisesLocation in $CompliancePolicy.SharePointOnPremisesLocation ) {
-                $xmlWriter.WriteElementString( 'SharePointOnPremisesLocation', $SharePointOnPremisesLocation )
+                $xmlWriter.WriteElementString( 'SharePointOnPremisesLocation', $SharePointOnPremisesLocation.Name )
             } # foreach $SharePointOnPremisesLocation in $CompliancePolicy.SharePointOnPremisesLocation
 
             foreach ( $SharePointOnPremisesLocationException in $CompliancePolicy.SharePointOnPremisesLocationException ) {
-                $xmlWriter.WriteElementString( 'SharePointOnPremisesLocationException', $SharePointOnPremisesLocationException )
+                $xmlWriter.WriteElementString( 'SharePointOnPremisesLocationException', $SharePointOnPremisesLocationException.Name )
             } # foreach $SharePointOnPremisesLocationException in $CompliancePolicy.SharePointOnPremisesLocationException
 
             foreach ( $TeamsLocation in $CompliancePolicy.TeamsLocation ) {
-                $xmlWriter.WriteElementString( 'TeamsLocation', $TeamsLocation )
+                $xmlWriter.WriteElementString( 'TeamsLocation', $TeamsLocation.Name )
             } # foreach $TeamsLocation in $CompliancePolicy.TeamsLocation
 
             foreach ( $TeamsLocationException in $CompliancePolicy.TeamsLocationException ) {
-                $xmlWriter.WriteElementString( 'TeamsLocationException', $TeamsLocationException )
+                $xmlWriter.WriteElementString( 'TeamsLocationException', $TeamsLocationException.Name )
             } # foreach $TeamsLocationException in $CompliancePolicy.TeamsLocationException
 
             foreach ( $EndpointDlpLocation in $CompliancePolicy.EndpointDlpLocation ) {
-                $xmlWriter.WriteElementString( 'EndpointDlpLocation', $EndpointDlpLocation )
+                $xmlWriter.WriteElementString( 'EndpointDlpLocation', $EndpointDlpLocation.Name )
             } # foreach $EndpointDlpLocation in $CompliancePolicy.EndpointDlpLocation
 
             foreach ( $EndpointDlpLocationException in $CompliancePolicy.EndpointDlpLocationException ) {
-                $xmlWriter.WriteElementString( 'EndpointDlpLocationException', $EndpointDlpLocationException )
+                $xmlWriter.WriteElementString( 'EndpointDlpLocationException', $EndpointDlpLocationException.Name )
             } # foreach $EndpointDlpLocationException in $CompliancePolicy.EndpointDlpLocationException
 
             foreach ( $ExchangeSender in $CompliancePolicy.ExchangeSender ) {
-                $xmlWriter.WriteElementString( 'ExchangeSender', $ExchangeSender )
+                $xmlWriter.WriteElementString( 'ExchangeSender', $ExchangeSender.Name )
             } # foreach $ExchangeSender in $CompliancePolicy.ExchangeSender
 
             foreach ( $ExchangeSenderMemberOf in $CompliancePolicy.ExchangeSenderMemberOf ) {
-                $xmlWriter.WriteElementString( 'ExchangeSenderMemberOf', $ExchangeSenderMemberOf )
+                $xmlWriter.WriteElementString( 'ExchangeSenderMemberOf', $ExchangeSenderMemberOf.Name )
             } # foreach $ExchangeSenderMemberOf in $CompliancePolicy.ExchangeSenderMemberOf
 
             foreach ( $ExchangeSenderException in $CompliancePolicy.ExchangeSenderException ) {
-                $xmlWriter.WriteElementString( 'ExchangeSenderException', $ExchangeSenderException )
+                $xmlWriter.WriteElementString( 'ExchangeSenderException', $ExchangeSenderException.Name )
             } # foreach $ExchangeSenderException in $CompliancePolicy.ExchangeSenderException
 
             foreach ( $ExchangeSenderMemberOfException in $CompliancePolicy.ExchangeSenderMemberOfException ) {
-                $xmlWriter.WriteElementString( 'ExchangeSenderMemberOfException', $ExchangeSenderMemberOfException )
+                $xmlWriter.WriteElementString( 'ExchangeSenderMemberOfException', $ExchangeSenderMemberOfException.Name )
             } # foreach $ExchangeSenderMemberOfException in $CompliancePolicy.ExchangeSenderMemberOfException
 
             Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] Getting Rules"
             Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] $($CompliancePolicy.Name)"
 
-            $rules = Get-DLPComplianceRule -Policy $CompliancePolicy.Name
+            $ComplianceRules = Get-DLPComplianceRule -Policy $CompliancePolicy.Name
 
-            foreach ( $rule in $rules ) {
+            foreach ( $ComplianceRule in $ComplianceRules ) {
                 $xmlWriter.WriteStartElement( 'Rule' )
-                $xmlWriter.WriteElementString( 'Name', $rule.Name )
+                $xmlWriter.WriteElementString( 'Name', $ComplianceRule.Name )
                 $xmlWriter.WriteElementString( 'ParentPolicyName', $CompliancePolicy.Name )
-                $xmlWriter.WriteElementString( 'Priority', $rule.Priority )
-                $xmlWriter.WriteElementString( 'AccessScope', $rule.AccessScope )
+                $xmlWriter.WriteElementString( 'Priority', $ComplianceRule.Priority )
+                $xmlWriter.WriteElementString( 'AccessScope', $ComplianceRule.AccessScope )
                 $xmlWriter.WriteComment(' AccessScope Options: InOrganization | NotInOrganization ')
-                $xmlWriter.WriteElementString( 'BlockAccess', $rule.BlockAccess )
-                $xmlWriter.WriteElementString( 'BlockAccessScope', $rule.BlockAccessScope )
+                $xmlWriter.WriteElementString( 'BlockAccess', $ComplianceRule.BlockAccess )
+                $xmlWriter.WriteElementString( 'BlockAccessScope', $ComplianceRule.BlockAccessScope )
                 $xmlWriter.WriteComment(' BlockAccessScope Options: All | PerUser ')
-                $xmlWriter.WriteElementString( 'Comment', $rule.Comment )
-                $xmlWriter.WriteElementString( 'ContentPropertyContainsWords', $rule.ContentPropertyContainsWords )
-                $xmlWriter.WriteElementString( 'Disabled', $rule.Disabled )
-                $xmlWriter.WriteElementString( 'StopPolicyProcessing', $rule.StopPolicyProcessing )
-                $xmlWriter.WriteElementString( 'ReportSeverityLevel', $rule.ReportSeverityLevel )
+                $xmlWriter.WriteElementString( 'Comment', $ComplianceRule.Comment )
+                $xmlWriter.WriteElementString( 'ContentPropertyContainsWords', $ComplianceRule.ContentPropertyContainsWords )
+                $xmlWriter.WriteElementString( 'Disabled', $ComplianceRule.Disabled )
+                $xmlWriter.WriteElementString( 'StopPolicyProcessing', $ComplianceRule.StopPolicyProcessing )
+                $xmlWriter.WriteElementString( 'ReportSeverityLevel', $ComplianceRule.ReportSeverityLevel )
                 $xmlWriter.WriteComment(' ReportSeverityLevel Options: Low | Medium | High | None ')
-                $xmlWriter.WriteElementString( 'RuleErrorAction', $rule.RuleErrorAction )
-                $xmlWriter.WriteComment(' RuleErrorAction Options: Ignore | RetryThenBlock | null ')
-                $xmlWriter.WriteElementString( 'ActivationDate', $rule.ActivationDate )
-                $xmlWriter.WriteElementString( 'ExpiryDate', $rule.ExpiryDate )
+                $xmlWriter.WriteElementString( 'RuleErrorAction', $ComplianceRule.RuleErrorAction )
+                $xmlWriter.WriteComment(' RuleErrorAction Options: Ignore | RetryThenBlock | Blank or $null ')
+                $xmlWriter.WriteElementString( 'ActivationDate', $ComplianceRule.ActivationDate )
+                $xmlWriter.WriteElementString( 'ExpiryDate', $ComplianceRule.ExpiryDate )
 
-                foreach ( $Alert in $rule.GenerateAlert ) {
+                foreach ( $Alert in $ComplianceRule.GenerateAlert ) {
                     $xmlWriter.WriteElementString( 'GenerateAlert', $Alert )
-                } # foreach $Alert in $rule.GenerateAlert
+                } # foreach $Alert in $ComplianceRule.GenerateAlert
+                $xmlWriter.WriteComment(' GenerateAlert Options: SiteAdmin | email address ')
                 
-                foreach ( $Report in $rule.GenerateIncidentReport ) {
+                foreach ( $Report in $ComplianceRule.GenerateIncidentReport ) {
                     $xmlWriter.WriteElementString( 'GenerateIncidentReport', $Report )
-                } # foreach $Report in $rule.GenerateIncidentReport
+                } # foreach $Report in $ComplianceRule.GenerateIncidentReport
+                $xmlWriter.WriteComment(' GenerateIncidentReport Options: SiteAdmin | email address ')
                 
-                foreach ( $ReportContent in $rule.IncidentReportContent ) {
+                foreach ( $ReportContent in $ComplianceRule.IncidentReportContent ) {
                     $xmlWriter.WriteElementString( 'IncidentReportContent', $ReportContent )
-                } # foreach $ReportContent in $rule.IncidentReportContent
+                } # foreach $ReportContent in $ComplianceRule.IncidentReportContent
                 $xmlWriter.WriteComment(' IncidentReportContent Options: All | Default | Detections | DocumentAuthor | DocumentLastModifier | MatchedItem | RulesMatched | Service | Severity | Service | Title ')
 
-                foreach ( $NotifyOverride in $rule.NotifyAllowOverride ) {
+                foreach ( $NotifyOverride in $ComplianceRule.NotifyAllowOverride ) {
                     $xmlWriter.WriteElementString( 'NotifyAllowOverride', $NotifyOverride )
-                } # foreach $NotifyOverride in $rule.NotifyAllowOverride
+                } # foreach $NotifyOverride in $ComplianceRule.NotifyAllowOverride
                 $xmlWriter.WriteComment(' NotifyAllowOverride Options: FalsePositive | WithoutJustification | WithJustification ')
 
-                $xmlWriter.WriteElementString( 'NotifyEmailCustomText', $rule.NotifyEmailCustomText )
-                $xmlWriter.WriteElementString( 'NotifyPolicyTipCustomText', $rule.NotifyPolicyTipCustomText )
+                $xmlWriter.WriteElementString( 'NotifyEmailCustomText', $ComplianceRule.NotifyEmailCustomText )
+                $xmlWriter.WriteElementString( 'NotifyPolicyTipCustomText', $ComplianceRule.NotifyPolicyTipCustomText )
 
-                foreach ( $NotifyUser in $rule.NotifyUser ) {
+                foreach ( $NotifyUser in $ComplianceRule.NotifyUser ) {
                     $xmlWriter.WriteElementString( 'NotifyUser', $NotifyUser )
-                } # foreach $NotifyUser in $rule.NotifyUser
+                } # foreach $NotifyUser in $ComplianceRule.NotifyUser
                 $xmlWriter.WriteComment(' NotifyUser Options: LastModifier | Owner | SiteAdmin | email address ')
                 
-
-                foreach ( $SIType in $rule.ContentContainsSensitiveInformation) {
+                foreach ( $SIType in $ComplianceRule.ContentContainsSensitiveInformation) {
                     $xmlWriter.WriteStartElement( 'ContentContainsSensitiveInformation' )
                     $xmlWriter.WriteElementString( 'Name', $SIType.Name )
                     $xmlWriter.WriteElementString( 'id', $SIType.id )
@@ -253,10 +252,10 @@ https://docs.microsoft.com/en-us/powershell/exchange/office-365-scc/connect-to-s
                     $xmlWriter.WriteElementString( 'maxConfidence', $SIType.maxConfidence )
                     $xmlWriter.WriteComment(' -1 equals "ANY" ')
                     $xmlWriter.WriteEndElement()
-                } # foreach $SIType in $rule.ContentContainsSensitiveInformation
+                } # foreach $SIType in $ComplianceRule.ContentContainsSensitiveInformation
 
                 $xmlWriter.WriteEndElement()
-            } # foreach $rule in $rules
+            } # foreach $ComplianceRule in $ComplianceRules
 
             $xmlWriter.WriteEndElement()
         } # foreach $CompliancePolicy in $CompliancePolicies
