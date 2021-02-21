@@ -12,7 +12,7 @@ foreach ( $role in $roles) {
             $user = Get-MsolUser -ObjectId $member.ObjectId
             $AccountType = "Cloud Only"
             If ($user.ImmutableId.length -gt 3) {$AccountType="Synced"}
-            $properties = @{ 
+            $properties = [ordered]@{ 
                 'TenantName'                  = $TenantName
                 'roleName'                    = $role.Name
                 'AccountType'                 = $AccountType
@@ -37,7 +37,7 @@ foreach ( $role in $roles) {
                 'PhoneNumber'                 = $user.PhoneNumber
                 'PostalCode'                  = $user.PostalCode
                 'PreferredLanguage'           = $user.PreferredLanguage
-                'ProxyAddresses'              = ( $user.ProxyAddresses | where {$_ -like "smtp:*"} ) -join ';'
+                'ProxyAddresses'              = ( $user.ProxyAddresses | Where-Object {$_ -like "smtp:*"} ) -join ';'
                 'ReleaseTrack'                = $user.ReleaseTrack
                 'SignInName'                  = $user.SignInName
                 'State'                       = $user.State

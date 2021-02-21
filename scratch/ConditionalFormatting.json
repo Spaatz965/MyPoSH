@@ -1,0 +1,10 @@
+
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/sp/v2/column-formatting.schema.json",
+  "elmType": "div",
+  "debugMode": true,
+  "txtContent": "@currentField",
+  "style": {
+    "color": "=if([$End_x0020_Date] <= [$Start_x0020_Date], '#ff0000', '')"
+  }
+}
