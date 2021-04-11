@@ -52,9 +52,24 @@ function Verb-Noun {
     Additional information about the function or script.
     File Name      : Verb-Noun.ps1
     Author         : Mark Christman
+    Github Repo    : https://github.com/Spaatz965/MyPoSH
     Requires       : PowerShell Version 2.0 and Active Directory Module
     Version        : 1.0
     Date           : 01 January 2018
+
+    DISCLAIMER
+    The sample scripts are not supported under any support program or service. 
+    The sample scripts are provided AS IS without warranty of any kind. Author
+    further disclaims all implied warranties including, without limitation, any
+    implied warranties of merchantability or of fitness for a particular purpose.
+    The entire risk arising out of the use or performance of the sample scripts
+    and documentation remains with you. In no event shall the authors, or anyone
+    else involved in the creation, production, or delivery of the scripts be
+    liable for any damages whatsoever (including, without limitation, damages
+    for loss of business profits, business interruption, loss of business
+    information, or other pecuniary loss) arising out of the use of or inability
+    to use the sample scripts or documentation, even if the author has been
+    advised of the possibility of such damages.
 
 .LINK
     The name of a related topic. The value appears on the line below
