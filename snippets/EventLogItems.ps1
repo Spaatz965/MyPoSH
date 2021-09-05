@@ -6,7 +6,8 @@
 $FilterHashTable = @{
     'logname'      = 'system'
     'providername' = 'eventlog'
-    'id'           = 6005,6006
+    #'id'           = 6005,6006
+    'id' = 1074
 }
 
 $EventLogs = get-winevent -FilterHashtable $FilterHashTable 
