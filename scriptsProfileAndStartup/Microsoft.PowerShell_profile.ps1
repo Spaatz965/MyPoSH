@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-=======
 <#
 
 .SYNOPSIS
@@ -87,6 +85,5 @@ $Parameters = @{
     'IncludeInvocationHeader' = $true
 }
 Start-Transcript @Parameters
->>>>>>> 148790e (Updates)
 
 Write-Output $PSVersionTable
