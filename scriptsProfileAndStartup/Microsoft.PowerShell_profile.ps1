@@ -1,64 +1,37 @@
+<<<<<<< HEAD
+=======
 <#
- 
+
 .SYNOPSIS
     Personal PowerShell Profile Script.
- 
+
 .DESCRIPTION
     Profie sets contant global variables for personal use.
 
-.EXAMPLE
-    Get the current date in my preferred format
-
-    get-date -uformat $dateFormat
-
-.EXAMPLE
-    Append Date to an output file for easy sorting
-
-    Get-WMIObject -class win32_system | out-file ".\systeminfo$(get-date -uformat $dateFormatSort)
- 
 .NOTES
     Additional information about the function or script.
     File Name  : Microsoft.PowerShell_profile.ps1
-    Author     : Mark Christman
-    Requires   : PowerShell Version 2.0 and Active Directory Module
-    Version    : 2.0
-    Date       : 17 September 2016
+    Requires   :
+    Version    : 2.1
+    Date       : 8 July 2023
 #>
 
 Set-Alias -Name sudo -Value Start-ElevatedPowerShell | out-null
 
+function gitgraph { git log --oneline --graph --decorate --all }
+
 $Parameters = @{
-    'Name'        = "dateFormatSort"
-    'Value'       = "%Y%m%d-%H%M"
-    'Description' = "Date format to append to file names. Profile created"
+    'Name'        = "logs"
+    'Value'       = "$ENV:OneDrive\_PowerShellLogs"
+    'Description' = "My PowerShell Logs. Profile created"
     'Option'      = "Constant"
     'Scope'       = "Global"
 } # $Parameters
 Set-Variable @Parameters
-
-$Parameters = @{
-    'Name'        = "dateFormat"
-    'Value'       = "%d %h %Y %T"
-    'Description' = "Preferred Date/Time Format. Profile created"
-    'Option'      = "Constant"
-    'Scope'       = "Global"
-} # $Parameters
-Set-Variable @Parameters
-
-<#
-Commented out temporarily
-$Parameters = @{
-    'Name'        = "PSEmailServer"
-    'Value'       = "mailer.example.com"
-    'Description' = "Outgoing SMTP Email Server. Profile created"
-    'Scope'       = "Global"
-} # $Parameters
-Set-Variable @Parameters
-#>
 
 $Parameters = @{
     'Name'        = "Doc"
-    'Value'       = "$env:userprofile\documents"
+    'Value'       = "$ENV:OneDrive\documents"
     'Description' = "My Documents Library. Profile created"
     'Option'      = "Constant"
     'Scope'       = "Global"
@@ -67,7 +40,7 @@ Set-Variable @Parameters
 
 $Parameters = @{
     'Name'        = "DL"
-    'Value'       = "$env:userprofile\downloads"
+    'Value'       = "$ENV:OneDrive\downloads"
     'Description' = "My Downloads Library. Profile created"
     'Option'      = "Constant"
     'Scope'       = "Global"
@@ -76,7 +49,7 @@ Set-Variable @Parameters
 
 $Parameters = @{
     'Name'        = "Scripts"
-    'Value'       = "$env:userprofile\onedrive\scripts"
+    'Value'       = "$ENV:Scripts"
     'Description' = "Prefered location for PowerShell Sripts. Profile created"
     'Option'      = "Constant"
     'Scope'       = "Global"
@@ -85,13 +58,35 @@ Set-Variable @Parameters
 
 $Parameters = @{
     'Name'        = "PSProfile"
-    'Value'       = "$env:userprofile\documents\WindowsPowerShell"
+    'Value'       = "$ENV:OneDrive\Documents\PowerShell"
     'Description' = "Default location for PowerShell Profile. Profile created"
     'Option'      = "Constant"
     'Scope'       = "Global"
 } # $Parameters
 Set-Variable @Parameters
 
-function prompt {"PS: $(get-date -uformat $dateFormat )> "}
+if ( $ENV:TERM -eq 'vscode') {
+    $Console = 'VSCode'
+}
+else {
+    $Console = 'Term'
+}
 
-set-location -path $Doc
+if ( [Security.Principal.WindowsIdentity]::GetCurrent().Groups -contains 'S-1-5-32-544' ) {
+    $TranscriptPath = Join-Path $Logs -ChildPath "$(Get-Date -Format FileDate)-$($ENV:COMPUTERNAME)-$Console-$($ENV:USERNAME)-ADMIN.txt"
+}
+else {
+    $TranscriptPath = Join-Path $Logs -ChildPath "$(Get-Date -Format FileDate)-$($ENV:COMPUTERNAME)-$Console-$($ENV:USERNAME).txt"
+}
+
+function prompt { "PS: $(Get-Date -Format "ddd dd MMM yyyy HH:mm:ss" )> " }
+
+$Parameters = @{
+    'Append'                  = $true
+    'Path'                    = $TranscriptPath
+    'IncludeInvocationHeader' = $true
+}
+Start-Transcript @Parameters
+>>>>>>> 148790e (Updates)
+
+Write-Output $PSVersionTable
