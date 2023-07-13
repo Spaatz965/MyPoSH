@@ -70,6 +70,8 @@ else {
     $Console = 'Term'
 }
 
+$Console = Get-Process -PID $PID | Select-Object -ExpandProperty Parent | Select-Object -ExpandProperty ProcessName
+
 if ( [Security.Principal.WindowsIdentity]::GetCurrent().Groups -contains 'S-1-5-32-544' ) {
     $TranscriptPath = Join-Path $Logs -ChildPath "$(Get-Date -Format FileDate)-$($ENV:COMPUTERNAME)-$Console-$($ENV:USERNAME)-ADMIN.txt"
 }
