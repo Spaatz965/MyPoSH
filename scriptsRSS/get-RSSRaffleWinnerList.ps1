@@ -1,6 +1,10 @@
+param (
+    [string]$filePath
+)
+
 function IsValidEmail {
-    # from Mathias R. Jessen's 14 Jan 2018 response 
-    # at https://stackoverflow.com/questions/48253743/powershell-to-validate-email-addresses 
+    # from Mathias R. Jessen's 14 Jan 2018 response
+    # at https://stackoverflow.com/questions/48253743/powershell-to-validate-email-addresses
 
     param([string]$EmailAddress)
 
@@ -29,23 +33,23 @@ function Get-RSSWorkingList {
 
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) BEGIN   ] File Path is $filePath"
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) BEGIN   ] maxEntries is $maxEntries"
-    
+
         $fileContent = Get-Content -Path $filePath
-        
+
         if ( $fileContent[0] -match "device") {
             $header = 'DeviceID', 'Name', 'Email'
             $uniqueProperty = 'DeviceID'
         }
         else {
             $header = 'givenName', 'familyName', 'Email'
-            $uniqueProperty = 'Email'           
+            $uniqueProperty = 'Email'
         }
-        
+
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) BEGIN   ] Header is $header"
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) BEGIN   ] uniqueProperty is $uniqueProperty"
-        
+
         $list = ConvertFrom-Csv -InputObject $fileContent -Header $header
-    
+
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) BEGIN   ] List contains $(($list | measure-object).count) items"
 
     } # BEGIN
@@ -65,13 +69,13 @@ function Get-RSSWorkingList {
 
                     if ( $null -ne $listItem.Name ) {
                         Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] $($listItem.Name) is not null"
-                        
+
                         Write-Output $listItem
 
                     } else {
                         Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] listItem.Name is a null value - $($listItem.Name)"
                     }
-                
+
                 } else {
                     Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] $($listItem.Email) is NOT a validly formated email address"
                 }
@@ -84,11 +88,11 @@ function Get-RSSWorkingList {
                 if (IsValidEmail -EmailAddress $listItem.Email) {
                     Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] $($listItem.Email) is a validly formated email address"
                     Write-Output $listItem
-                
+
                 } else {
                     Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] $($listItem.Email) is NOT a validly formated email address"
                 }
-            }   
+            }
         }
 
         Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] Creating the entryCount array"
@@ -121,7 +125,7 @@ function Get-RSSWorkingList {
                 Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] counter greater than zero - storing item"
 
                 Write-Output $listItem
-    
+
             } else {
 
                 Write-Verbose "[$((get-date).TimeOfDay.ToString()) PROCESS ] counter was less than or equal to zero - item not stored"
@@ -154,9 +158,8 @@ function Get-RSSWorkingList {
 
 # Call Function with parameters
 
-$myList = Get-RSSWorkingList -Verbose -maxEntries 2
-$timestamp = Get-Date -Format o | ForEach-Object { $_ -replace ":", "." }
-$myList | Export-Csv -Path "\testoutput$timestamp.csv"
+$myList = Get-RSSWorkingList -Verbose -maxEntries 2 -filePath $filePath
+$myList | Export-Csv -Path ".\testoutput$(Get-Date -format FileDateTime).csv"
 
 $myList | Get-Random -Count 10
 
